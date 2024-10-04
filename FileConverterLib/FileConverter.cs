@@ -1,4 +1,8 @@
-﻿using System.Drawing;
+﻿using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.Advanced;
+using PdfSharp.Pdf.IO;
+using System.Drawing;
 using System.Drawing.Imaging;
 
 namespace FileConverterLib
@@ -44,6 +48,62 @@ namespace FileConverterLib
         {
             string jpgFileName = $@"{Path.GetDirectoryName(pngFileName)}\{Path.GetFileNameWithoutExtension(pngFileName)}.jpg";
             PngFileToJpgFile(pngFileName, jpgFileName);
+        }
+        #endregion
+
+        #region JPG to PDF
+        public static void JpgFileToPdfFile(string jpgFileName, string pdfFileName)
+        {
+            using (PdfDocument document = new PdfDocument())
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    PdfPage page = document.AddPage();
+
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
+                    XImage image = XImage.FromFile(jpgFileName);
+
+                    page.Height = XUnit.FromPoint(image.PointHeight);
+                    page.Width = XUnit.FromPoint(image.PointWidth);
+
+                    gfx.DrawImage(image, 0, 0);
+                }
+
+                document.Save(pdfFileName);
+            }
+        }
+        #endregion
+
+        #region PDF to JPG
+        // Только если вся страница - картинка
+        public static void PfgFileToJpgFile(string pdfFileName, string jpgFolderName)
+        {
+            PdfDocument document = PdfReader.Open(pdfFileName);
+            var newDir = Directory.CreateDirectory(jpgFolderName);
+            var path = newDir.FullName;
+                        
+            
+            for(int i = 0; i < document.PageCount; i++)
+            {
+                var page = document.Pages[i];
+                var resources = page.Elements.GetDictionary("/Resources");
+                var xObjects = resources.Elements.GetDictionary("/XObject");
+                var items = xObjects.Elements.Values;
+                foreach(var item in items)
+                {
+                    PdfReference reference = item as PdfReference;
+                    PdfDictionary xObject = reference.Value as PdfDictionary;
+
+                    byte[] stream = xObject.Stream.Value;
+
+                    var imgFile = File.Create(Path.Combine(path, $"page{i + 1}.jpg"));
+                    using (BinaryWriter bw = new BinaryWriter(imgFile))
+                    {
+                        bw.Write(stream);
+                    }
+                }
+            }
+            
         }
         #endregion
     }

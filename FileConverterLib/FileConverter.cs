@@ -4,11 +4,60 @@ using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.ExceptionServices;
 
 namespace FileConverterLib
 {
     public class FileConverter
     {
+        #region Merge PDFs
+        public static void MergePDFs(string pdfOutput, params string[] pdfs)
+        {
+            using (var outputDocument = new PdfDocument())
+            {
+                foreach (var pdf in pdfs)
+                {
+                    using (var inputDocument = PdfReader.Open(pdf, PdfDocumentOpenMode.Import))
+                    {
+                        for (int i = 0; i < inputDocument.PageCount; i++)
+                        {
+                            PdfPage page = inputDocument.Pages[i];
+                            outputDocument.AddPage(page);
+                        }
+                    }
+                }
+                outputDocument.Save(pdfOutput);
+            }
+        }
+        #endregion
+
+        #region Split PDF
+        public static void SplitPDF(string pdfInput, int pageSplitFrom, string pdf1Output, string pdf2Output)
+        {
+            using(var inputDocument = PdfReader.Open(pdfInput, PdfDocumentOpenMode.Import))
+            {
+                var outputDocument1 = new PdfDocument();
+                var outputDocument2 = new PdfDocument();
+
+                for(int i = 0; i < inputDocument.PageCount; i++)
+                {
+                    var page = inputDocument.Pages[i];
+
+                    if (i < pageSplitFrom - 1)
+                        outputDocument1.AddPage(page);
+                    else
+                        outputDocument2.AddPage(page);            
+                }
+
+                outputDocument1.Save(pdf1Output);
+                outputDocument2.Save(pdf2Output);
+
+                outputDocument1.Dispose();
+                outputDocument2.Dispose();
+            }
+        }
+        #endregion
+
         #region JPG to PNG
         public static void JpgFileToPngFile(string jpgFileName, string pngFileName)
         {

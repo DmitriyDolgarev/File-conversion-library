@@ -1,10 +1,9 @@
-﻿using PdfSharp.Drawing;
+﻿using System.Drawing;
+using System.Drawing.Imaging;
 using PdfSharp.Pdf;
+using PdfSharp.Drawing;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Runtime.ExceptionServices;
 
 namespace FileConverterLib
 {
@@ -125,7 +124,7 @@ namespace FileConverterLib
 
         #region PDF to JPG
         // Только если вся страница - картинка
-        public static void PfgFileToJpgFile(string pdfFileName, string jpgFolderName)
+        public static void PdfFileToJpgFile(string pdfFileName, string jpgFolderName)
         {
             PdfDocument document = PdfReader.Open(pdfFileName);
             var newDir = Directory.CreateDirectory(jpgFolderName);

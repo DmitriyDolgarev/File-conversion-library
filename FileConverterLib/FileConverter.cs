@@ -123,35 +123,17 @@ namespace FileConverterLib
         #endregion
 
         #region PDF to JPG
-        // Только если вся страница - картинка
+        
         public static void PdfFileToJpgFile(string pdfFileName, string jpgFolderName)
         {
-            PdfDocument document = PdfReader.Open(pdfFileName);
-            var newDir = Directory.CreateDirectory(jpgFolderName);
-            var path = newDir.FullName;
-                        
-            
-            for(int i = 0; i < document.PageCount; i++)
+            using(var pdfDocument = PdfiumViewer.PdfDocument.Load(pdfFileName))
             {
-                var page = document.Pages[i];
-                var resources = page.Elements.GetDictionary("/Resources");
-                var xObjects = resources.Elements.GetDictionary("/XObject");
-                var items = xObjects.Elements.Values;
-                foreach(var item in items)
+                for (int i = 0; i < pdfDocument.PageCount; i++)
                 {
-                    PdfReference reference = item as PdfReference;
-                    PdfDictionary xObject = reference.Value as PdfDictionary;
-
-                    byte[] stream = xObject.Stream.Value;
-
-                    var imgFile = File.Create(Path.Combine(path, $"page{i + 1}.jpg"));
-                    using (BinaryWriter bw = new BinaryWriter(imgFile))
-                    {
-                        bw.Write(stream);
-                    }
+                    var bitmapImage = pdfDocument.Render(i, 300, 300, true);
+                    bitmapImage.Save(Path.Combine(jpgFolderName, $"page-{i+1}.jpg"), ImageFormat.Jpeg);
                 }
             }
-            
         }
         #endregion
     }

@@ -4,6 +4,7 @@ using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf.IO;
 using System.Diagnostics;
+using System;
 
 namespace FileConverterLib
 {
@@ -141,7 +142,7 @@ namespace FileConverterLib
         #endregion
 
         #region WORD to PDF
-        public static void WordFileToPdfFile(string wordFileName, string pdfFileFolder)
+        public static void DocxFileToPdfFile(string wordFileName, string pdfFileFolder)
         {
             using (Process process = new Process())
             {
@@ -149,6 +150,44 @@ namespace FileConverterLib
                 info.FileName = "soffice";
                 info.WorkingDirectory = sofficePath;
                 info.Arguments = $"--headless --convert-to \"pdf:writer_pdf_Export\" \"{wordFileName}\" --outdir \"{pdfFileFolder}\"";
+                info.UseShellExecute = true;
+                process.StartInfo = info;
+
+                process.Start();
+                process.WaitForExit();
+                process.Close();
+            }
+        }
+        #endregion
+
+        #region PDF to WORD
+        public static void PdfFileToDocxFile(string pdfFileName, string wordFileFolder)
+        {
+            using (Process process = new Process())
+            {
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.FileName = "soffice";
+                info.WorkingDirectory = sofficePath;
+                info.Arguments = $"--headless --infilter=\"writer_pdf_import\" --convert-to docx \"{pdfFileName}\" --outdir \"{wordFileFolder}\"";
+                info.UseShellExecute = true;
+                process.StartInfo = info;
+
+                process.Start();
+                process.WaitForExit();
+                process.Close();
+            }
+        }
+        #endregion
+
+        #region Pptx to PDF
+        public static void PptxFileToPdfFile(string pptxFileName, string pdfFileFolder)
+        {
+            using (Process process = new Process())
+            {
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.FileName = "soffice";
+                info.WorkingDirectory = sofficePath;
+                info.Arguments = $"--headless --convert-to \"pdf\" \"{pptxFileName}\" --outdir \"{pdfFileFolder}\"";
                 info.UseShellExecute = true;
                 process.StartInfo = info;
 

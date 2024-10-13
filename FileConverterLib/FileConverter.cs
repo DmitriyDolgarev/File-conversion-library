@@ -2,13 +2,16 @@
 using System.Drawing.Imaging;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
-using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
+using System.Diagnostics;
 
 namespace FileConverterLib
 {
     public class FileConverter
     {
+        // Путь до soffice
+        public static string sofficePath = @"C:\Program Files\LibreOffice\program";
+
         #region Merge PDFs
         public static void MergePDFs(string pdfOutput, params string[] pdfs)
         {
@@ -104,8 +107,8 @@ namespace FileConverterLib
         {
             using (PdfDocument document = new PdfDocument())
             {
-                for (int i = 0; i < 5; i++)
-                {
+                //for (int i = 0; i < 5; i++)
+                //{
                     PdfPage page = document.AddPage();
 
                     XGraphics gfx = XGraphics.FromPdfPage(page);
@@ -115,7 +118,7 @@ namespace FileConverterLib
                     page.Width = XUnit.FromPoint(image.PointWidth);
 
                     gfx.DrawImage(image, 0, 0);
-                }
+                //}
 
                 document.Save(pdfFileName);
             }
@@ -133,6 +136,25 @@ namespace FileConverterLib
                     var bitmapImage = pdfDocument.Render(i, 300, 300, true);
                     bitmapImage.Save(Path.Combine(jpgFolderName, $"page-{i+1}.jpg"), ImageFormat.Jpeg);
                 }
+            }
+        }
+        #endregion
+
+        #region WORD to PDF
+        public static void WordFileToPdfFile(string wordFileName, string pdfFileFolder)
+        {
+            using (Process process = new Process())
+            {
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.FileName = "soffice";
+                info.WorkingDirectory = sofficePath;
+                info.Arguments = $"--headless --convert-to \"pdf:writer_pdf_Export\" \"{wordFileName}\" --outdir \"{pdfFileFolder}\"";
+                info.UseShellExecute = true;
+                process.StartInfo = info;
+
+                process.Start();
+                process.WaitForExit();
+                process.Close();
             }
         }
         #endregion

@@ -66,15 +66,17 @@ FileConverter.JpgFilesToPdfFile(string[] jpgFiles, string pdfFileName)
 
 ## PDF в JPG
 ```csharp
-FileConverter.PdfFileToJpgFiles(string pdfFileName, string jpgFolderName)
+FileConverter.PdfFileToJpgFiles(string pdfFileName, string jpgFolderName, bool zip = false)
 ```
 - `pdfFileName` - Исходный PDF файл
 - `jpgFolderName` - Папка, в которой будут сохранены JPG файлы с названием `page_{i}.pdf`.
-
+- `zip`: (по умолчанию - `false`)
+    - Если `true` - то JPG файлы сохранятся в указанной папке
+    - Если `false` - то JPG файлы сохранятся в указанном ZIP-архиве 
 ```csharp
-FileConverter.PdfFileToJpgFiles(string pdfFileName)
+FileConverter.PdfFileToJpgFiles(string pdfFileName, bool zip = false)
 ```
-JPG файлы будут созданы в той же директории и с таким же названием, что и PDF файл, 
+JPG файлы будут созданы в той же директории (или архиве) и с таким же названием, что и PDF файл, 
 
 ## Word в PDF
 ```csharp

@@ -1,6 +1,6 @@
 # File Conversion Library
 
-### Начало работы
+## Начало работы
 Для работы с Word и PowerPoint файлами необходим установленный LibreOffice.\
 Работа происходит при помощи приложения `soffice.exe`, который по умолчанию установлен по пути `C:\Program Files\LibreOffice\program`\
 Если приложение установлено в другой папке, то нужно указать этот путь перед использованием библиотеки:
@@ -12,14 +12,14 @@ FileConverter.sofficePath = "Путь до soffice.exe"
 FileConverter.SofficeExists
 ```
 
-### Объединение PDF
+## Объединение PDF
 ```csharp
 FileConverter.MergePDFs(string[] pdfFiles, string pdfOutput)
 ```
 - `pdfFiles` - Список PDF файлов для объединения
 - `pdfOutput` - PDF файл c результатом
 
-### Разделение PDF
+## Разделение PDF
 ```csharp
 FileConverter.SplitPDF(string pdfInput, int pageSplitFrom, string pdf1Output, string pdf2Output)
 ```
@@ -33,7 +33,7 @@ FileConverter.SplitPDF(string pdfInput, int pageSplitFrom)
 ```
 В результате в той же директории, что и PDF файл, будут созданы 2 файла: `{pdfInput}_splitted1.pdf` и `{pdfInput}_splitted2.pdf`
 
-### JPG в PNG
+## JPG в PNG
 ```csharp
 FileConverter.JpgFileToPngFile(string jpgFileName, string pngFileName)
 ```
@@ -45,7 +45,7 @@ FileConverter.JpgFileToPngFile(string jpgFileName)
 ```
 PNG файл будет создан в той же директории и с тем же названием, что и JPG файл
 
-### PNG в JPG
+## PNG в JPG
 ```csharp
 FileConverter.PngFileToJpgFile(string pngFileName, string jpgFileName)
 ```
@@ -57,14 +57,14 @@ FileConverter.PngFileToJpgFile(string pngFileName)
 ```
 JPG файл будет создан в той же директории и с тем же названием, что и PNG файл
 
-### JPG в PDF
+## JPG в PDF
 ```csharp
 FileConverter.JpgFilesToPdfFile(string[] jpgFiles, string pdfFileName)
 ```
 - `jpgFiles` - Список JPG файлов для объединения
 - `pdfFileName` - Итоговый PDF файл
 
-### PDF в JPG
+## PDF в JPG
 ```csharp
 FileConverter.PdfFileToJpgFiles(string pdfFileName, string jpgFolderName)
 ```
@@ -76,21 +76,21 @@ FileConverter.PdfFileToJpgFiles(string pdfFileName)
 ```
 JPG файлы будут созданы в той же директории и с таким же названием, что и PDF файл, 
 
-### Word в PDF
+## Word в PDF
 ```csharp
 FileConverter.DocxFileToPdfFile(string wordFileName, string pdfFileFolder)
 ```
 - `wordFileName` - Исходный Word файл
 - `pdfFileFolder` - Папка, в которой будет создан PDF файл с тем же названием, что и Word файл
 
-### PDF в Word
+## PDF в Word
 ```csharp
 FileConverter.PdfFileToDocxFile(string pdfFileName, string wordFileFolder)
 ```
 - `pdfFileName` - Исходный PDF файл
 - `wordFileFolder` - Папка, в которой будет создан Word файл с тем же названием, что и PDF файл
 
-### PowerPoint в PDF
+## PowerPoint в PDF
 ```csharp
 FileConverter.PptxFileToPdfFile(string pptxFileName, string pdfFileFolder)
 ```

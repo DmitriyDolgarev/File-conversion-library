@@ -1,5 +1,34 @@
 # File Conversion Library
 
+## Установка C#
+1. Скачать файл FileConverterLib.1.0.0.nupkg
+2. Установить скачанный NuGet пакет. Для этого в `Package Manager Console` необходимо написать:
+    ```ps
+    Install-Package -Source "<Путь до скачанного пакета>" FileConverterLib.1.0.0.nupkg
+    ```
+3. Подключить библиотеку в коде:
+    ```csharp
+    using FileConverterLib;
+    ```
+
+## Установка Python
+1. Скачать архив с библиотекой и распаковать в папку с проектом
+2. Установить библиотеку `pythonnet` для работы с C#:
+    ```
+    pip install pythonnet
+    ```
+3. Подключить библиотеку в коде:
+    ```python
+    import os
+    from pythonnet import load
+    load("coreclr")
+    from clr import AddReference
+    # Тут нужно указать полный путь до файла с библиотекой
+    AddReference(os.getcwd() + r'\FileConverterLibrary\FileConverterLib.dll')
+    
+    from FileConverterLib import FileConverter
+    ```
+
 ## Начало работы
 Для работы с Word и PowerPoint файлами необходим установленный LibreOffice.\
 Работа происходит при помощи приложения `soffice.exe`, который по умолчанию установлен по пути `C:\Program Files\LibreOffice\program`\

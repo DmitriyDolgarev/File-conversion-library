@@ -5,6 +5,7 @@ using PdfSharp.Drawing;
 using PdfSharp.Pdf.IO;
 using System.Diagnostics;
 using System;
+using System.IO.Compression;
 
 namespace FileConverterLib
 {
@@ -142,7 +143,22 @@ namespace FileConverterLib
         #endregion
 
         #region PDF to JPG
-        public static void PdfFileToJpgFiles(string pdfFileName, string jpgFolderName)
+        public static void PdfFileToJpgFiles(string pdfFileName, string jpgFolderName, bool zip = false)
+        {
+            if (zip)
+                PdfFileToJpgFilesZip(pdfFileName, jpgFolderName);
+            else
+                PdfFileToJpgFilesFolder(pdfFileName, jpgFolderName);
+        }
+        public static void PdfFileToJpgFiles(string pdfFileName, bool zip = false)
+        {
+            if (zip)
+                PdfFileToJpgFilesZip(pdfFileName);
+            else
+                PdfFileToJpgFilesFolder(pdfFileName);
+        }
+
+        private static void PdfFileToJpgFilesFolder(string pdfFileName, string jpgFolderName)
         {
             pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
             if(!Directory.Exists(jpgFolderName))
@@ -159,9 +175,44 @@ namespace FileConverterLib
             }
         }
 
-        public static void PdfFileToJpgFiles(string pdfFileName)
+        private static void PdfFileToJpgFilesFolder(string pdfFileName)
         {
             PdfFileToJpgFiles(pdfFileName, GetFileNameInSameFolder(pdfFileName));
+        }
+
+        private static void PdfFileToJpgFilesZip(string pdfFileName, string jpgFolderName)
+        {
+            pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
+            jpgFolderName = Path.ChangeExtension(jpgFolderName, "zip");
+
+            using(var fs = new FileStream(jpgFolderName, FileMode.CreateNew))
+            {
+                using (var archive = new ZipArchive(fs, ZipArchiveMode.Create, true))
+                {
+                    using (var pdfDocument = PdfiumViewer.PdfDocument.Load(pdfFileName))
+                    {
+                        for (int i = 0; i < pdfDocument.PageCount; i++)
+                        {
+                            var bitmapImage = pdfDocument.Render(i, 300, 300, true);
+                            var fileName = $"page_{i + 1}.jpg";
+                            var archiveEntry = archive.CreateEntry(fileName);
+                            using(var zipStream = archiveEntry.Open())
+                            {
+                                using(var ms = new MemoryStream())
+                                {
+                                    bitmapImage.Save(ms, ImageFormat.Jpeg);
+                                    zipStream.Write(ms.ToArray());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void PdfFileToJpgFilesZip(string pdfFileName)
+        {
+            PdfFileToJpgFilesZip(pdfFileName, GetFileNameInSameFolder(pdfFileName));
         }
         #endregion
 

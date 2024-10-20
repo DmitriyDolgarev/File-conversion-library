@@ -15,7 +15,7 @@ namespace FileConverterLib
         public static bool SofficeExists { get => File.Exists(Path.Combine(sofficePath, "soffice.exe")); }
 
         #region Merge PDFs
-        public static void MergePDFs(string pdfOutput, string[] pdfFiles)
+        public static void MergePDFs(string[] pdfFiles, string pdfOutput)
         {
             pdfOutput = Path.ChangeExtension(pdfOutput, "pdf");
             for (int i = 0; i < pdfFiles.Length; i++)

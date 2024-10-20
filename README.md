@@ -76,7 +76,7 @@ FileConverter.PdfFileToJpgFiles(string pdfFileName, string jpgFolderName, bool z
 ```csharp
 FileConverter.PdfFileToJpgFiles(string pdfFileName, bool zip = false)
 ```
-JPG файлы будут созданы в той же директории (или архиве) и с таким же названием, что и PDF файл, 
+Папка (или архив) с JPG файлами будет создана в той же директории и с таким же названием, что и PDF файл 
 
 ## Word в PDF
 ```csharp

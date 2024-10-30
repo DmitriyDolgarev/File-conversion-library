@@ -1,11 +1,10 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.IO.Compression;
+using System.Drawing;
 using System.Drawing.Imaging;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf.IO;
-using System.Diagnostics;
-using System;
-using System.IO.Compression;
 
 namespace FileConverterLib
 {

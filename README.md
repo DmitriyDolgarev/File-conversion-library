@@ -34,11 +34,13 @@
 Работа происходит при помощи приложения `soffice.exe`, который по умолчанию установлен по пути `C:\Program Files\LibreOffice\program`\
 Если приложение установлено в другой папке, то нужно указать этот путь перед использованием библиотеки:
 ```csharp
-FileConverter.sofficePath = "Путь до soffice.exe"
+FileConverter.sofficePath = "Путь до soffice.exe";
 ```
-Чтобы убедиться, что библиотека находит файл `soffice.exe` можно написать:
+При использовании библиотеки на `Linux` и при условии,
+что `LibreOffice` уже установлен и команда `soffice` доступна в терминале,
+для корректной работы библиотеки следует написать:
 ```csharp
-FileConverter.SofficeExists
+FileConverter.sofficePath = "";
 ```
 
 ## Объединение PDF
@@ -109,21 +111,36 @@ FileConverter.PdfFileToJpgFiles(string pdfFileName, bool zip = false)
 
 ## Word в PDF
 ```csharp
-FileConverter.DocxFileToPdfFile(string wordFileName, string pdfFileFolder)
+FileConverter.DocxFileToPdfFile(string wordFileName, string pdfFileName)
 ```
 - `wordFileName` - Исходный Word файл
-- `pdfFileFolder` - Папка, в которой будет создан PDF файл с тем же названием, что и Word файл
+- `pdfFileName` - Итоговый PDF файл
+
+```csharp
+FileConverter.DocxFileToPdfFile(string wordFileName)
+```
+PDF файл будет создан в той же директории и с тем же названием, что и Word файл
 
 ## PDF в Word
 ```csharp
-FileConverter.PdfFileToDocxFile(string pdfFileName, string wordFileFolder)
+FileConverter.PdfFileToDocxFile(string pdfFileName, string wordFileName)
 ```
 - `pdfFileName` - Исходный PDF файл
-- `wordFileFolder` - Папка, в которой будет создан Word файл с тем же названием, что и PDF файл
+- `wordFileName` - Итоговый Word файл 
+
+```csharp
+FileConverter.PdfFileToDocxFile(string pdfFileName)
+```
+Word файл будет создан в той же директории и с тем же названием, что и PDF файл
 
 ## PowerPoint в PDF
 ```csharp
-FileConverter.PptxFileToPdfFile(string pptxFileName, string pdfFileFolder)
+FileConverter.PptxFileToPdfFile(string pptxFileName, string pdfFileName)
 ```
 - `pptxFileName` - Исходный PowerPoint файл
-- `pdfFileFolder` - Папка, в которой будет создан PDF файл с тем же названием, что и PowerPoint файл
+- `pdfFileName` - Итоговый PDF файл
+
+```csharp
+FileConverter.PptxFileToPdfFile(string pptxFileName)
+```
+PDF файл будет создан в той же директории и с тем же названием, что и PowerPoint файл

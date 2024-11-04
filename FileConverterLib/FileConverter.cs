@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics;
 using System.IO.Compression;
-using System.Drawing;
-using System.Drawing.Imaging;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf.IO;
+using SkiaSharp;
+using PDFtoImage;
+//using Conversion = PDFtoImage.Conversion;
 
 namespace FileConverterLib
 {
@@ -84,9 +85,15 @@ namespace FileConverterLib
             jpgFileName = Path.ChangeExtension(jpgFileName, "jpg");
             pngFileName = Path.ChangeExtension(pngFileName, "png");
 
-            using (var img = Image.FromFile(jpgFileName))
+            using(var img = SKImage.FromEncodedData(jpgFileName))
             {
-                img.Save(pngFileName, ImageFormat.Png);
+                using(var data = img.Encode(SKEncodedImageFormat.Png, 100))
+                {
+                    using (var stream = File.OpenWrite(pngFileName))
+                    {   
+                        data.SaveTo(stream);
+                    }
+                }
             }
         }
 
@@ -99,12 +106,18 @@ namespace FileConverterLib
         #region PNG TO JPG
         public static void PngFileToJpgFile(string pngFileName, string jpgFileName)
         {
-           pngFileName = Path.ChangeExtension(pngFileName, "png");   
-           jpgFileName = Path.ChangeExtension(jpgFileName, "jpg");
+            pngFileName = Path.ChangeExtension(pngFileName, "png");   
+            jpgFileName = Path.ChangeExtension(jpgFileName, "jpg");
 
-            using (var img = Image.FromFile(pngFileName))
+            using (var img = SKImage.FromEncodedData(pngFileName))
             {
-                img.Save(jpgFileName, ImageFormat.Jpeg);
+                using (var data = img.Encode(SKEncodedImageFormat.Jpeg, 100))
+                {
+                    using (var stream = File.OpenWrite(jpgFileName))
+                    {
+                        data.SaveTo(stream);
+                    }
+                }
             }
         }
 
@@ -160,16 +173,32 @@ namespace FileConverterLib
         private static void PdfFileToJpgFilesFolder(string pdfFileName, string jpgFolderName)
         {
             pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
-            if(!Directory.Exists(jpgFolderName))
+            if (!Directory.Exists(jpgFolderName))
                 Directory.CreateDirectory(jpgFolderName);
 
-            using(var pdfDocument = PdfiumViewer.PdfDocument.Load(pdfFileName))
+            var pdfByteArray = Convert.ToBase64String(File.ReadAllBytes(pdfFileName));
+            var pageCount = Conversion.GetPageCount(pdfByteArray);
+
+            for (int i = 0; i < pageCount; i++)
             {
-                for (int i = 0; i < pdfDocument.PageCount; i++)
+                var fileName = Path.Combine(jpgFolderName, $"page_{i + 1}.jpg");
+
+                var pageSize = Conversion.GetPageSize(pdfByteArray, i);
+                var options = new RenderOptions(
+                            Dpi: 300,
+                            Width: PointsToPixels(pageSize.Width),
+                            Height: PointsToPixels(pageSize.Height)
+                );
+
+                using (var skImage = Conversion.ToImage(pdfByteArray, i, options: options))
                 {
-                    var bitmapImage = pdfDocument.Render(i, 300, 300, true);
-                    var fileName = Path.Combine(jpgFolderName, $"page_{i + 1}.jpg");
-                    bitmapImage.Save(fileName, ImageFormat.Jpeg);
+                    using (var data = skImage.Encode(SKEncodedImageFormat.Jpeg, 100))
+                    {
+                        using (var stream = File.OpenWrite(fileName))
+                        {
+                            data.SaveTo(stream);
+                        }
+                    }
                 }
             }
         }
@@ -184,23 +213,37 @@ namespace FileConverterLib
             pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
             jpgFolderName = Path.ChangeExtension(jpgFolderName, "zip");
 
-            using(var fs = new FileStream(jpgFolderName, FileMode.CreateNew))
+
+            using(var fs = new FileStream(jpgFolderName, FileMode.OpenOrCreate))
             {
                 using (var archive = new ZipArchive(fs, ZipArchiveMode.Create, true))
                 {
-                    using (var pdfDocument = PdfiumViewer.PdfDocument.Load(pdfFileName))
+                    var pdfByteArray = Convert.ToBase64String(File.ReadAllBytes(pdfFileName));
+                    var pageCount = Conversion.GetPageCount(pdfByteArray);
+
+                    for (int i = 0; i < pageCount; i++)
                     {
-                        for (int i = 0; i < pdfDocument.PageCount; i++)
+                        var fileName = $"page_{i + 1}.jpg";
+
+                        var pageSize = Conversion.GetPageSize(pdfByteArray, i);
+                        var options = new RenderOptions(
+                                    Dpi: 300,
+                                    Width: PointsToPixels(pageSize.Width),
+                                    Height: PointsToPixels(pageSize.Height)
+                        );
+
+                        using (var skImage = Conversion.ToImage(pdfByteArray, i, options: options))
                         {
-                            var bitmapImage = pdfDocument.Render(i, 300, 300, true);
-                            var fileName = $"page_{i + 1}.jpg";
-                            var archiveEntry = archive.CreateEntry(fileName);
-                            using(var zipStream = archiveEntry.Open())
+                            using (var data = skImage.Encode(SKEncodedImageFormat.Jpeg, 100))
                             {
-                                using(var ms = new MemoryStream())
+                                var archiveEntry = archive.CreateEntry(fileName);
+                                using (var zipStream = archiveEntry.Open())
                                 {
-                                    bitmapImage.Save(ms, ImageFormat.Jpeg);
-                                    zipStream.Write(ms.ToArray());
+                                    using (var ms = new MemoryStream())
+                                    {
+                                        data.SaveTo(ms);
+                                        zipStream.Write(ms.ToArray());
+                                    }
                                 }
                             }
                         }
@@ -241,6 +284,12 @@ namespace FileConverterLib
         public static void PdfFileToDocxFile(string pdfFileName, string wordFileFolder)
         {
             pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
+
+            using (var pdfDocument = PdfReader.Open(pdfFileName))
+            {
+                
+            }
+
             using (Process process = new Process())
             {
                 ProcessStartInfo info = new ProcessStartInfo();
@@ -289,6 +338,11 @@ namespace FileConverterLib
         private static string GetFileNameInSameFolder(string fileName, string extension)
         {
             return GetFileNameInSameFolder(fileName) + "." + extension;
+        }
+
+        private static int PointsToPixels(double points)
+        {
+            return (int)Math.Round(points * 1.333f);
         }
     }
 }

@@ -5,15 +5,14 @@ using PdfSharp.Drawing;
 using PdfSharp.Pdf.IO;
 using SkiaSharp;
 using PDFtoImage;
-//using Conversion = PDFtoImage.Conversion;
 
 namespace FileConverterLib
 {
     public class FileConverter
     {
         // Путь до soffice
+        // В линуксе: пустая строка ""
         public static string sofficePath = @"C:\Program Files\LibreOffice\program";
-        public static bool SofficeExists { get => File.Exists(Path.Combine(sofficePath, "soffice.exe")); }
 
         #region Merge PDFs
         public static void MergePDFs(string[] pdfFiles, string pdfOutput)
@@ -259,17 +258,21 @@ namespace FileConverterLib
         #endregion
 
         #region WORD to PDF
-        public static void DocxFileToPdfFile(string wordFileName, string pdfFileFolder)
+        public static void DocxFileToPdfFile(string wordFileName, string pdfFileName)
         {
+            pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
             if(Path.GetExtension(wordFileName).ToLower() != ".docx" && Path.GetExtension(wordFileName).ToLower() != ".doc")
                 wordFileName = Path.ChangeExtension(wordFileName, "docx");
+
+            var fileName = Path.GetFileNameWithoutExtension(wordFileName);
+            var tempFolder = Directory.CreateDirectory($"~{fileName}_temp").FullName;
 
             using (Process process = new Process())
             {
                 ProcessStartInfo info = new ProcessStartInfo();
                 info.FileName = "soffice";
                 info.WorkingDirectory = sofficePath;
-                info.Arguments = $"--headless --convert-to \"pdf:writer_pdf_Export\" \"{wordFileName}\" --outdir \"{pdfFileFolder}\"";
+                info.Arguments = $"--headless --convert-to \"pdf:writer_pdf_Export\" \"{wordFileName}\" --outdir \"{tempFolder}\"";
                 info.UseShellExecute = true;
                 process.StartInfo = info;
 
@@ -277,25 +280,33 @@ namespace FileConverterLib
                 process.WaitForExit();
                 process.Close();
             }
+
+            File.Move(Path.Combine(tempFolder, fileName + ".pdf"), pdfFileName);
+            Directory.Delete(tempFolder, true);
+        }
+
+        public static void DocxFileToPdfFile(string wordFileName)
+        {
+            DocxFileToPdfFile(wordFileName, GetFileNameInSameFolder(wordFileName));
         }
         #endregion
 
         #region PDF to WORD
-        public static void PdfFileToDocxFile(string pdfFileName, string wordFileFolder)
+        public static void PdfFileToDocxFile(string pdfFileName, string wordFileName)
         {
             pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
+            if(Path.GetExtension(wordFileName).ToLower() != ".docx" && Path.GetExtension(wordFileName).ToLower() != ".doc")
+                wordFileName = Path.ChangeExtension(wordFileName, "docx");
 
-            using (var pdfDocument = PdfReader.Open(pdfFileName))
-            {
-                
-            }
+            var fileName = Path.GetFileNameWithoutExtension(pdfFileName);
+            var tempFolder = Directory.CreateDirectory($"~{fileName}_temp").FullName;
 
             using (Process process = new Process())
             {
                 ProcessStartInfo info = new ProcessStartInfo();
                 info.FileName = "soffice";
                 info.WorkingDirectory = sofficePath;
-                info.Arguments = $"--headless --infilter=\"writer_pdf_import\" --convert-to docx \"{pdfFileName}\" --outdir \"{wordFileFolder}\"";
+                info.Arguments = $"--headless --infilter=\"writer_pdf_import\" --convert-to docx \"{pdfFileName}\" --outdir \"{tempFolder}\"";
                 info.UseShellExecute = true;
                 process.StartInfo = info;
 
@@ -303,20 +314,33 @@ namespace FileConverterLib
                 process.WaitForExit();
                 process.Close();
             }
+
+            File.Move(Path.Combine(tempFolder, fileName + ".docx"), wordFileName);
+            Directory.Delete(tempFolder, true);
+        }
+
+        public static void PdfFileToDocxFile(string pdfFileName)
+        {
+            PdfFileToDocxFile(pdfFileName, GetFileNameInSameFolder(pdfFileName));
         }
         #endregion
 
         #region Pptx to PDF
-        public static void PptxFileToPdfFile(string pptxFileName, string pdfFileFolder)
+        public static void PptxFileToPdfFile(string pptxFileName, string pdfFileName)
         {
+            pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
             if (Path.GetExtension(pptxFileName).ToLower() != ".pptx" && Path.GetExtension(pptxFileName).ToLower() != ".ppt")
                 pptxFileName = Path.ChangeExtension(pptxFileName, "pptx");
+
+            var fileName = Path.GetFileNameWithoutExtension(pptxFileName);
+            var tempFolder = Directory.CreateDirectory($"~{fileName}_temp").FullName;
+
             using (Process process = new Process())
             {
                 ProcessStartInfo info = new ProcessStartInfo();
                 info.FileName = "soffice";
                 info.WorkingDirectory = sofficePath;
-                info.Arguments = $"--headless --convert-to \"pdf\" \"{pptxFileName}\" --outdir \"{pdfFileFolder}\"";
+                info.Arguments = $"--headless --convert-to \"pdf\" \"{pptxFileName}\" --outdir \"{tempFolder}\"";
                 info.UseShellExecute = true;
                 process.StartInfo = info;
 
@@ -324,6 +348,14 @@ namespace FileConverterLib
                 process.WaitForExit();
                 process.Close();
             }
+
+            File.Move(Path.Combine(tempFolder, fileName + ".pdf"), pdfFileName);
+            Directory.Delete(tempFolder, true);
+        }
+
+        public static void PptxFileToPdfFile(string pptxFileName)
+        {
+            PptxFileToPdfFile(pptxFileName, GetFileNameInSameFolder(pptxFileName));
         }
         #endregion
 

@@ -24,4 +24,8 @@
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="testfiles\test_jpgs_to_pdf\" />
+  </ItemGroup>
+
 </Project>

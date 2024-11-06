@@ -252,5 +252,100 @@ namespace FileConverterLib.Tests
         }
 
         #endregion
+
+        #region TestJpgToPdf
+        [TestMethod]
+        public void Test_JpgsToPdf()
+        {
+            string filename = "test_jpgs_to_pdf";
+            string[] files = Directory.GetFiles(Path.Combine(pathTestfiles, filename));
+            FileConverter.JpgFilesToPdfFile(files, Path.Combine(pathResult,$"{filename}.pdf"));
+
+            using (PdfDocument document = PdfReader.Open(Path.Combine(pathResult, $"{filename}.pdf")))
+            {
+                Assert.AreEqual(files.Length,document.PageCount);
+            }
+        }
+        #endregion
+
+        #region Test_MergePdf
+        [TestMethod]
+        public void TestMergePdf()
+        {
+            string filename = "test_merge_pdf";
+            string[] files = Directory.GetFiles(Path.Combine(pathTestfiles, filename));
+
+            FileConverter.MergePDFs(files, Path.Combine(pathResult, $"{filename}.pdf"));
+
+            using (PdfDocument document = PdfReader.Open(Path.Combine(pathResult, $"{filename}.pdf")))
+            {
+                int pageCount = 0;
+                foreach (string f in files)
+                {
+                    using (PdfDocument doc = PdfReader.Open(f))
+                    {
+                        pageCount += doc.PageCount;
+                    }
+                }
+                Assert.AreEqual(document.PageCount, pageCount);
+            }
+
+
+
+        }
+        #endregion
+
+        #region Test_SptitPdf
+        [TestMethod]
+        public void TestSplitPdf_4params(){
+            string filename = "test_merge_pdf";
+            int splitFrom = 2;
+
+            FileConverter.SplitPDF(Path.Combine(pathTestfiles, $"{filename}.pdf"), splitFrom, 
+                Path.Combine(pathResult, $"{filename}_split_1.pdf"), 
+                Path.Combine(pathResult, $"{filename}_split_2.pdf")
+            );
+
+            using (PdfDocument document = PdfReader.Open(Path.Combine(pathTestfiles, $"{filename}.pdf")))
+            {
+                using (PdfDocument doc1 = PdfReader.Open(Path.Combine(pathResult, $"{filename}_split_1.pdf")))
+                {
+                    Assert.AreEqual(document.PageCount - splitFrom, doc1.PageCount);
+                }
+
+                using (PdfDocument doc2 = PdfReader.Open(Path.Combine(pathResult, $"{filename}_split_2.pdf")))
+                {
+                    Assert.AreEqual((document.PageCount - splitFrom) + 1, doc2.PageCount) ;
+                }
+            }
+
+
+        }
+
+        [TestMethod]
+        public void TestSplitPdf_2params()
+        {
+            string filename = "test_merge_pdf";
+            int splitFrom = 2;
+
+            File.Copy(Path.Combine(pathTestfiles, $"{filename}.pdf"), Path.Combine(pathResult, $"{filename}.pdf"));
+
+            FileConverter.SplitPDF(Path.Combine(pathResult, $"{filename}.pdf"), splitFrom);
+
+            using (PdfDocument document = PdfReader.Open(Path.Combine(pathResult, $"{filename}.pdf")))
+            {
+                using (PdfDocument doc1 = PdfReader.Open(Path.Combine(pathResult, $"{filename}_splitted1.pdf")))
+                {
+                    Assert.AreEqual(document.PageCount - splitFrom, doc1.PageCount);
+                }
+
+                using (PdfDocument doc2 = PdfReader.Open(Path.Combine(pathResult, $"{filename}_splitted2.pdf")))
+                {
+                    Assert.AreEqual((document.PageCount - splitFrom) + 1, doc2.PageCount);
+                }
+            }
+        }
+        #endregion
+
     }
 }

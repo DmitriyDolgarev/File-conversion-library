@@ -298,7 +298,7 @@ namespace FileConverterLib.Tests
         #region Test_SptitPdf
         [TestMethod]
         public void TestSplitPdf_4params(){
-            string filename = "test_merge_pdf";
+            string filename = "test_split_pdf";
             int splitFrom = 2;
 
             FileConverter.SplitPDF(Path.Combine(pathTestfiles, $"{filename}.pdf"), splitFrom, 
@@ -325,7 +325,7 @@ namespace FileConverterLib.Tests
         [TestMethod]
         public void TestSplitPdf_2params()
         {
-            string filename = "test_merge_pdf";
+            string filename = "test_split_pdf";
             int splitFrom = 2;
 
             File.Copy(Path.Combine(pathTestfiles, $"{filename}.pdf"), Path.Combine(pathResult, $"{filename}.pdf"));

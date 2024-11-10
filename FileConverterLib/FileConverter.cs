@@ -6,6 +6,11 @@ using PdfSharp.Pdf.IO;
 using SkiaSharp;
 using PDFtoImage;
 
+using Microsoft.Office.Core;
+using Word = Microsoft.Office.Interop.Word;
+using Microsoft.Office.Interop.Word;
+using Microsoft.Office.Interop.PowerPoint;
+
 namespace FileConverterLib
 {
     public class FileConverter
@@ -289,6 +294,15 @@ namespace FileConverterLib
         {
             DocxFileToPdfFile(wordFileName, GetFileNameInSameFolder(wordFileName));
         }
+
+        public static void DocxFileToPdfFileWord(string wordFileName, string pdfFileName)
+        {
+            pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
+            if (Path.GetExtension(wordFileName).ToLower() != ".docx" && Path.GetExtension(wordFileName).ToLower() != ".doc")
+                wordFileName = Path.ChangeExtension(wordFileName, "docx");
+
+            ConvertWord(wordFileName, pdfFileName, WdSaveFormat.wdFormatPDF);
+        }
         #endregion
 
         #region PDF to WORD
@@ -322,6 +336,15 @@ namespace FileConverterLib
         public static void PdfFileToDocxFile(string pdfFileName)
         {
             PdfFileToDocxFile(pdfFileName, GetFileNameInSameFolder(pdfFileName));
+        }
+
+        public static void PdfFileToDocxFileWord(string pdfFileName, string wordFileName)
+        {
+            pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
+            if (Path.GetExtension(wordFileName).ToLower() != ".docx" && Path.GetExtension(wordFileName).ToLower() != ".doc")
+                wordFileName = Path.ChangeExtension(wordFileName, "docx");
+
+            ConvertWord(pdfFileName, wordFileName, WdSaveFormat.wdFormatDocumentDefault);
         }
         #endregion
 
@@ -357,6 +380,38 @@ namespace FileConverterLib
         {
             PptxFileToPdfFile(pptxFileName, GetFileNameInSameFolder(pptxFileName));
         }
+
+        public static void PptxFileToPdfFilePowerpoint(string pptxFileName, string pdfFileName)
+        {
+            pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
+            if (Path.GetExtension(pptxFileName).ToLower() != ".pptx" && Path.GetExtension(pptxFileName).ToLower() != ".ppt")
+                pptxFileName = Path.ChangeExtension(pptxFileName, "pptx");
+
+            object unknownType = Type.Missing;
+
+            // start power point
+            Microsoft.Office.Interop.PowerPoint.Application pptApplication = new Microsoft.Office.Interop.PowerPoint.Application();
+
+            // open powerpoint document
+            Presentation pptPresentation = pptApplication.Presentations.Open(pptxFileName,
+                    MsoTriState.msoTrue, MsoTriState.msoTrue,
+                    MsoTriState.msoFalse);
+
+                // save PowerPoint as PDF
+                pptPresentation.ExportAsFixedFormat(pdfFileName,
+                    PpFixedFormatType.ppFixedFormatTypePDF,
+                    PpFixedFormatIntent.ppFixedFormatIntentPrint,
+                    MsoTriState.msoFalse, 
+                    PpPrintHandoutOrder.ppPrintHandoutVerticalFirst,
+                    PpPrintOutputType.ppPrintOutputSlides, MsoTriState.msoFalse, null,
+                    PpPrintRangeType.ppPrintAll, string.Empty, true, true, true,
+                    true, false, unknownType);
+            
+            // Close and release the Document object.
+            pptPresentation.Close();
+            // Quit PowerPoint and release the ApplicationClass object.
+            pptApplication.Quit();
+        }
         #endregion
 
         private static string GetFileNameInSameFolder(string fileName)
@@ -375,6 +430,46 @@ namespace FileConverterLib
         private static int PointsToPixels(double points)
         {
             return (int)Math.Round(points * 1.333f);
+        }
+
+        private static void ConvertWord(string input, string output, WdSaveFormat outputType)
+        {
+            // Create an instance of Word.exe
+            Word._Application oWord = new Word.Application
+            {
+
+                // Make this instance of word invisible (Can still see it in the taskmgr).
+                Visible = false
+            };
+
+            // Interop requires objects.
+            object oMissing = System.Reflection.Missing.Value;
+            object isVisible = true;
+            object readOnly = true;     // Does not cause any word dialog to show up
+            //object readOnly = false;  // Causes a word object dialog to show at the end of the conversion
+            object oInput = input;
+            object oOutput = output;
+            object oFormat = outputType;
+
+            // Load a document into our instance of word.exe
+            Word._Document oDoc = oWord.Documents.Open(
+                ref oInput, ref oMissing, ref readOnly, ref oMissing, ref oMissing,
+                ref oMissing, ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                ref oMissing, ref isVisible, ref oMissing, ref oMissing, ref oMissing, ref oMissing
+                );
+
+            // Make this document the active document.
+            oDoc.Activate();
+
+            // Save this document using Word
+            oDoc.SaveAs(ref oOutput, ref oFormat, ref oMissing, ref oMissing,
+                ref oMissing, ref oMissing, ref oMissing, ref oMissing, ref oMissing,
+                ref oMissing, ref oMissing, ref oMissing, ref oMissing, ref oMissing, ref oMissing, ref oMissing
+                );
+
+            oDoc.Close();
+            // Always close Word.exe.
+            oWord.Quit(ref oMissing, ref oMissing, ref oMissing);
         }
     }
 }

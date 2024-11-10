@@ -1,6 +1,7 @@
 ﻿using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Interop.PowerPoint;
+using FileConverterLib.Utils;
 
 namespace FileConverterLib.MSOffice
 {
@@ -46,6 +47,11 @@ namespace FileConverterLib.MSOffice
 
             ConvertWord(wordFileName, pdfFileName, WdSaveFormat.wdFormatPDF);
         }
+
+        public static void DocxFileToPdfFile(string wordFileName)
+        {
+            DocxFileToPdfFile(wordFileName, FileConverterUtils.GetFileNameInSameFolder(wordFileName));
+        }
         #endregion
 
         #region PDF to Word
@@ -56,6 +62,11 @@ namespace FileConverterLib.MSOffice
                 wordFileName = Path.ChangeExtension(wordFileName, "docx");
 
             ConvertWord(pdfFileName, wordFileName, WdSaveFormat.wdFormatDocumentDefault);
+        }
+
+        public static void PdfFileToDocxFile(string pdfFileName)
+        {
+            PdfFileToDocxFile(pdfFileName, FileConverterUtils.GetFileNameInSameFolder(pdfFileName));
         }
         #endregion
 
@@ -85,6 +96,11 @@ namespace FileConverterLib.MSOffice
 
             pptPresentation.Close();
             pptApplication.Quit();
+        }
+
+        public static void PptxFileToPdfFile(string pptxFileName)
+        {
+            PptxFileToPdfFile(pptxFileName, FileConverterUtils.GetFileNameInSameFolder(pptxFileName));
         }
         #endregion
     }

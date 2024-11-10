@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using FileConverterLib.PDF;
+using System.Linq;
 
 namespace FileConverterConsole.PDF
 {
@@ -12,6 +13,7 @@ namespace FileConverterConsole.PDF
             switch (cmdOptions.Method)
             {
                 case "MergePDFs":
+
                     string[] pdfFiles = cmdOptions.pdfFiles.ToArray();
                     PDFConverter.MergePDFs(pdfFiles, cmdOptions.pdfOutput);
                     break;

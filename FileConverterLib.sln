@@ -3,11 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterLib", "FileConverterLib\FileConverterLib.csproj", "{0B3FA8FB-EB64-453A-97B9-EB223DD1B120}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterConsole", "FileConverterConsole\FileConverterConsole.csproj", "{19D5B46A-87AD-43B7-B936-5080FF4EB3E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileConverterLib.Tests", "FileConverterLib.Tests\FileConverterLib.Tests.csproj", "{0858220F-AAF1-44E8-AE49-AE1284A340F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterLib.Tests", "FileConverterLib.Tests\FileConverterLib.Tests.csproj", "{0858220F-AAF1-44E8-AE49-AE1284A340F6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterLib", "_FileConverterLib\FileConverterLib.csproj", "{C16E5A8D-09CD-459D-AB7A-608F2BD91369}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterLib.MSOffice", "FileConverterLib\FileConverterLib.MSOffice\FileConverterLib.MSOffice.csproj", "{E9EB1F2C-CC36-4C7D-80A9-6E3A397D4992}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{CDF08273-5EB4-44B6-BCD8-7E16C303A5B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Console", "Console", "{6C07D326-231E-4DA4-AD7E-0797156B3195}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterLib.LibreOffice", "FileConverterLib\FileConverterLib.LibreOffice\FileConverterLib.LibreOffice.csproj", "{322614A7-FE1A-48C3-AF5A-68249955C4EA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterLib.Utils", "FileConverterLib\FileConverterLib.Utils\FileConverterLib.Utils.csproj", "{9451219E-B589-4441-BDF5-618ACDB1EDD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileConverterLib.PDF", "FileConverterLib\FileConverterLib.PDF\FileConverterLib.PDF.csproj", "{DCA7BB05-23BF-4AF6-9B5A-7D681CF7F80C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileConverterLib.Images", "FileConverterLib\FileConverterLib.Images\FileConverterLib.Images.csproj", "{D2E0E85F-8BC3-435B-8E44-047EF698814D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +29,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0B3FA8FB-EB64-453A-97B9-EB223DD1B120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B3FA8FB-EB64-453A-97B9-EB223DD1B120}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B3FA8FB-EB64-453A-97B9-EB223DD1B120}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B3FA8FB-EB64-453A-97B9-EB223DD1B120}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19D5B46A-87AD-43B7-B936-5080FF4EB3E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{19D5B46A-87AD-43B7-B936-5080FF4EB3E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19D5B46A-87AD-43B7-B936-5080FF4EB3E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,9 +37,41 @@ Global
 		{0858220F-AAF1-44E8-AE49-AE1284A340F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0858220F-AAF1-44E8-AE49-AE1284A340F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0858220F-AAF1-44E8-AE49-AE1284A340F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C16E5A8D-09CD-459D-AB7A-608F2BD91369}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C16E5A8D-09CD-459D-AB7A-608F2BD91369}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C16E5A8D-09CD-459D-AB7A-608F2BD91369}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C16E5A8D-09CD-459D-AB7A-608F2BD91369}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9EB1F2C-CC36-4C7D-80A9-6E3A397D4992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9EB1F2C-CC36-4C7D-80A9-6E3A397D4992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9EB1F2C-CC36-4C7D-80A9-6E3A397D4992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9EB1F2C-CC36-4C7D-80A9-6E3A397D4992}.Release|Any CPU.Build.0 = Release|Any CPU
+		{322614A7-FE1A-48C3-AF5A-68249955C4EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{322614A7-FE1A-48C3-AF5A-68249955C4EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{322614A7-FE1A-48C3-AF5A-68249955C4EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{322614A7-FE1A-48C3-AF5A-68249955C4EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9451219E-B589-4441-BDF5-618ACDB1EDD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9451219E-B589-4441-BDF5-618ACDB1EDD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9451219E-B589-4441-BDF5-618ACDB1EDD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9451219E-B589-4441-BDF5-618ACDB1EDD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCA7BB05-23BF-4AF6-9B5A-7D681CF7F80C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCA7BB05-23BF-4AF6-9B5A-7D681CF7F80C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCA7BB05-23BF-4AF6-9B5A-7D681CF7F80C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCA7BB05-23BF-4AF6-9B5A-7D681CF7F80C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2E0E85F-8BC3-435B-8E44-047EF698814D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2E0E85F-8BC3-435B-8E44-047EF698814D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2E0E85F-8BC3-435B-8E44-047EF698814D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2E0E85F-8BC3-435B-8E44-047EF698814D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{19D5B46A-87AD-43B7-B936-5080FF4EB3E9} = {6C07D326-231E-4DA4-AD7E-0797156B3195}
+		{E9EB1F2C-CC36-4C7D-80A9-6E3A397D4992} = {CDF08273-5EB4-44B6-BCD8-7E16C303A5B2}
+		{322614A7-FE1A-48C3-AF5A-68249955C4EA} = {CDF08273-5EB4-44B6-BCD8-7E16C303A5B2}
+		{9451219E-B589-4441-BDF5-618ACDB1EDD5} = {CDF08273-5EB4-44B6-BCD8-7E16C303A5B2}
+		{DCA7BB05-23BF-4AF6-9B5A-7D681CF7F80C} = {CDF08273-5EB4-44B6-BCD8-7E16C303A5B2}
+		{D2E0E85F-8BC3-435B-8E44-047EF698814D} = {CDF08273-5EB4-44B6-BCD8-7E16C303A5B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62BE5EA0-6FB3-4C54-A423-296E6C611BFC}

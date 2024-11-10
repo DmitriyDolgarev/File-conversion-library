@@ -18,6 +18,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FileConverterLib\FileConverterLib.csproj" />
+    <ProjectReference Include="..\FileConverterLib\FileConverterLib.Images\FileConverterLib.Images.csproj" />
+    <ProjectReference Include="..\FileConverterLib\FileConverterLib.LibreOffice\FileConverterLib.LibreOffice.csproj" />
+    <ProjectReference Include="..\FileConverterLib\FileConverterLib.MSOffice\FileConverterLib.MSOffice.csproj" />
+    <ProjectReference Include="..\FileConverterLib\FileConverterLib.PDF\FileConverterLib.PDF.csproj" />
   </ItemGroup>
 
   <ItemGroup>

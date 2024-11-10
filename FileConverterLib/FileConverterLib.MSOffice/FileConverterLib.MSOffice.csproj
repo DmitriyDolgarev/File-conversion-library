@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+	
+	<ItemGroup>
+		<COMReference Include="Microsoft.Office.Interop.Word">
+			<WrapperTool>tlbimp</WrapperTool>
+			<VersionMinor>7</VersionMinor>
+			<VersionMajor>8</VersionMajor>
+			<Guid>00020905-0000-0000-c000-000000000046</Guid>
+			<Lcid>0</Lcid>
+			<Isolated>false</Isolated>
+			<EmbedInteropTypes>true</EmbedInteropTypes>
+		</COMReference>
+
+		<COMReference Include="Microsoft.Office.Interop.PowerPoint">
+			<WrapperTool>tlbimp</WrapperTool>
+			<VersionMinor>12</VersionMinor>
+			<VersionMajor>2</VersionMajor>
+			<Guid>91493440-5a91-11cf-8700-00aa0060263b</Guid>
+			<Lcid>0</Lcid>
+			<Isolated>false</Isolated>
+			<EmbedInteropTypes>true</EmbedInteropTypes>
+		</COMReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MicrosoftOfficeCore" Version="15.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\FileConverterLib.Utils\FileConverterLib.Utils.csproj" />
+	</ItemGroup>
+</Project>

@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PDFsharp" Version="6.1.1" />
-    <PackageReference Include="PDFtoImage" Version="4.1.1" />
+    <ProjectReference Include="..\FileConverterLib.Utils\FileConverterLib.Utils.csproj" />
   </ItemGroup>
 
 </Project>

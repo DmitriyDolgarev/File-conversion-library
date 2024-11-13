@@ -15,17 +15,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterLib.LibreOffic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterLib.Utils", "FileConverterLib\FileConverterLib.Utils\FileConverterLib.Utils.csproj", "{9451219E-B589-4441-BDF5-618ACDB1EDD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileConverterLib.PDF", "FileConverterLib\FileConverterLib.PDF\FileConverterLib.PDF.csproj", "{DCA7BB05-23BF-4AF6-9B5A-7D681CF7F80C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterLib.PDF", "FileConverterLib\FileConverterLib.PDF\FileConverterLib.PDF.csproj", "{DCA7BB05-23BF-4AF6-9B5A-7D681CF7F80C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileConverterLib.Images", "FileConverterLib\FileConverterLib.Images\FileConverterLib.Images.csproj", "{D2E0E85F-8BC3-435B-8E44-047EF698814D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterLib.Images", "FileConverterLib\FileConverterLib.Images\FileConverterLib.Images.csproj", "{D2E0E85F-8BC3-435B-8E44-047EF698814D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileConverterConsole.Images", "FileConverterConsole\FileConverterConsole.Images\FileConverterConsole.Images.csproj", "{5AB90E8A-6F98-4DF1-BBCD-F41BA16D3189}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterConsole.Images", "FileConverterConsole\FileConverterConsole.Images\FileConverterConsole.Images.csproj", "{5AB90E8A-6F98-4DF1-BBCD-F41BA16D3189}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileConverterConsole.PDF", "FileConverterConsole\FileConverterConsole.PDF\FileConverterConsole.PDF.csproj", "{DDDC1E07-DCD6-4AB7-BF26-B5551DBDF1F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterConsole.PDF", "FileConverterConsole\FileConverterConsole.PDF\FileConverterConsole.PDF.csproj", "{DDDC1E07-DCD6-4AB7-BF26-B5551DBDF1F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileConverterConsole.MSOffice", "FileConverterConsole\FileConverterConsole.MSOffice\FileConverterConsole.MSOffice.csproj", "{416D8592-8FCD-4D72-BF92-F45B5E81742B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterConsole.MSOffice", "FileConverterConsole\FileConverterConsole.MSOffice\FileConverterConsole.MSOffice.csproj", "{416D8592-8FCD-4D72-BF92-F45B5E81742B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileConverterConsole.LibreOffice", "FileConverterConsole\FileConverterConsole.LibreOffice\FileConverterConsole.LibreOffice.csproj", "{F77F8DAE-8613-4CC0-9B53-6CA3A4157EFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterConsole.LibreOffice", "FileConverterConsole\FileConverterConsole.LibreOffice\FileConverterConsole.LibreOffice.csproj", "{F77F8DAE-8613-4CC0-9B53-6CA3A4157EFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

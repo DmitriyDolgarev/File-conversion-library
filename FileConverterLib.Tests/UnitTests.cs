@@ -6,14 +6,15 @@ using FileConverterLib.Images;
 using FileConverterLib.PDF;
 using FileConverterLib.MSOffice;
 using FileConverterLib.LibreOffice;
+using System.Net;
 
 namespace FileConverterLib.Tests
 {
     [TestClass]
     public class UnitTests
     {
-        private static string pathTestfiles = @"..\..\..\..\FileConverterLib.Tests\testfiles";
-        private static string pathResult = @"..\..\..\..\FileConverterLib.Tests\resultfiles";
+        private static string pathTestfiles = Path.GetFullPath(Path.Combine("..", "..", "..", "..", "FileConverterLib.Tests", "testfiles"));
+        private static string pathResult = Path.GetFullPath(Path.Combine("..", "..", "..", "..", "FileConverterLib.Tests", "resultfiles"));
 
         [ClassInitialize]
         public static void BeforeTests(TestContext _context)
@@ -350,5 +351,76 @@ namespace FileConverterLib.Tests
         }
         #endregion
 
+        #region Test_WordToPdf
+        [TestMethod]
+        public void Test_WordToPdf_2params()
+        {
+            string filename = "test_word";
+            MSOfficeConverter.DocxFileToPdfFile(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename));
+
+            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.pdf")));
+
+        }
+
+        [TestMethod]
+        public void Test_WordToPdf_1param()
+        {
+            string filename = "test_word";
+            File.Copy(Path.Combine(pathTestfiles, $"{filename}.docx"), Path.Combine(pathResult, $"{filename}.docx"));
+            
+            MSOfficeConverter.DocxFileToPdfFile(Path.Combine(pathResult, filename));
+            
+            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.pdf")));
+
+        }
+        #endregion
+
+        #region Test_PptxToPdf
+        [TestMethod]
+        public void Test_PptxToPdf_2params()
+        {
+            string filename = "test_powerpoint";
+            MSOfficeConverter.PptxFileToPdfFile(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename));
+
+            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.pdf")));
+
+        }
+
+        [TestMethod]
+        public void Test_PptxToPdf_1param()
+        {
+            string filename = "test_powerpoint";
+            File.Copy(Path.Combine(pathTestfiles, $"{filename}.pptx"), Path.Combine(pathResult, $"{filename}.pptx"));
+
+            MSOfficeConverter.PptxFileToPdfFile(Path.Combine(pathResult, filename));
+
+            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.pdf")));
+
+        }
+        #endregion
+
+        #region Test_PptxToPdf
+        [TestMethod]
+        public void Test_PdfToWord_2params()
+        {
+            string filename = "test_pdf_3";
+            MSOfficeConverter.PdfFileToDocxFile(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename));
+
+            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.docx")));
+
+        }
+
+        [TestMethod]
+        public void Test_PdfToWord_1param()
+        {
+            string filename = "test_pdf_3";
+            File.Copy(Path.Combine(pathTestfiles, $"{filename}.pdf"), Path.Combine(pathResult, $"{filename}.pdf"));
+
+            MSOfficeConverter.PdfFileToDocxFile(Path.Combine(pathResult, filename));
+
+            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.docx")));
+
+        }
+        #endregion
     }
 }

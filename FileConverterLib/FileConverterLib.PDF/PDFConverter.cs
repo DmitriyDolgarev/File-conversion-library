@@ -5,15 +5,16 @@ using PdfSharp.Drawing;
 using PdfSharp.Pdf.IO;
 using SkiaSharp;
 using PDFtoImage;
-//using Conversion = PDFtoImage.Conversion;
+using FileConverterLib.Utils;
 
-namespace FileConverterLib
+namespace FileConverterLib.PDF
 {
-    public class FileConverter
+    public class PDFConverter
     {
-        // Путь до soffice
-        public static string sofficePath = @"C:\Program Files\LibreOffice\program";
-        public static bool SofficeExists { get => File.Exists(Path.Combine(sofficePath, "soffice.exe")); }
+        private static int PointsToPixels(double points)
+        {
+            return (int)Math.Round(points * 1.333f);
+        }
 
         #region Merge PDFs
         public static void MergePDFs(string[] pdfFiles, string pdfOutput)
@@ -47,19 +48,19 @@ namespace FileConverterLib
             pdf1Output = Path.ChangeExtension(pdf1Output, "pdf");
             pdf2Output = Path.ChangeExtension(pdf2Output, "pdf");
 
-            using(var inputDocument = PdfReader.Open(pdfInput, PdfDocumentOpenMode.Import))
+            using (var inputDocument = PdfReader.Open(pdfInput, PdfDocumentOpenMode.Import))
             {
                 var outputDocument1 = new PdfDocument();
                 var outputDocument2 = new PdfDocument();
 
-                for(int i = 0; i < inputDocument.PageCount; i++)
+                for (int i = 0; i < inputDocument.PageCount; i++)
                 {
                     var page = inputDocument.Pages[i];
 
                     if (i < pageSplitFrom - 1)
                         outputDocument1.AddPage(page);
                     else
-                        outputDocument2.AddPage(page);            
+                        outputDocument2.AddPage(page);
                 }
 
                 outputDocument1.Save(pdf1Output);
@@ -72,58 +73,10 @@ namespace FileConverterLib
 
         public static void SplitPDF(string pdfInput, int pageSplitFrom)
         {
-            var pdf1 = GetFileNameInSameFolder(pdfInput) + "_splitted1.pdf";
-            var pdf2 = GetFileNameInSameFolder(pdfInput) + "_splitted2.pdf";
+            var pdf1 = FileConverterUtils.GetFileNameInSameFolder(pdfInput) + "_splitted1.pdf";
+            var pdf2 = FileConverterUtils.GetFileNameInSameFolder(pdfInput) + "_splitted2.pdf";
 
             SplitPDF(pdfInput, pageSplitFrom, pdf1, pdf2);
-        }
-        #endregion
-
-        #region JPG to PNG
-        public static void JpgFileToPngFile(string jpgFileName, string pngFileName)
-        {
-            jpgFileName = Path.ChangeExtension(jpgFileName, "jpg");
-            pngFileName = Path.ChangeExtension(pngFileName, "png");
-
-            using(var img = SKImage.FromEncodedData(jpgFileName))
-            {
-                using(var data = img.Encode(SKEncodedImageFormat.Png, 100))
-                {
-                    using (var stream = File.OpenWrite(pngFileName))
-                    {   
-                        data.SaveTo(stream);
-                    }
-                }
-            }
-        }
-
-        public static void JpgFileToPngFile(string jpgFileName)
-        {
-            JpgFileToPngFile(jpgFileName, GetFileNameInSameFolder(jpgFileName));
-        }
-        #endregion
-
-        #region PNG TO JPG
-        public static void PngFileToJpgFile(string pngFileName, string jpgFileName)
-        {
-            pngFileName = Path.ChangeExtension(pngFileName, "png");   
-            jpgFileName = Path.ChangeExtension(jpgFileName, "jpg");
-
-            using (var img = SKImage.FromEncodedData(pngFileName))
-            {
-                using (var data = img.Encode(SKEncodedImageFormat.Jpeg, 100))
-                {
-                    using (var stream = File.OpenWrite(jpgFileName))
-                    {
-                        data.SaveTo(stream);
-                    }
-                }
-            }
-        }
-
-        public static void PngFileToJpgFile(string pngFileName)
-        {
-            PngFileToJpgFile(pngFileName, GetFileNameInSameFolder(pngFileName));
         }
         #endregion
 
@@ -205,7 +158,7 @@ namespace FileConverterLib
 
         private static void PdfFileToJpgFilesFolder(string pdfFileName)
         {
-            PdfFileToJpgFiles(pdfFileName, GetFileNameInSameFolder(pdfFileName));
+            PdfFileToJpgFiles(pdfFileName, FileConverterUtils.GetFileNameInSameFolder(pdfFileName));
         }
 
         private static void PdfFileToJpgFilesZip(string pdfFileName, string jpgFolderName)
@@ -214,7 +167,7 @@ namespace FileConverterLib
             jpgFolderName = Path.ChangeExtension(jpgFolderName, "zip");
 
 
-            using(var fs = new FileStream(jpgFolderName, FileMode.OpenOrCreate))
+            using (var fs = new FileStream(jpgFolderName, FileMode.OpenOrCreate))
             {
                 using (var archive = new ZipArchive(fs, ZipArchiveMode.Create, true))
                 {
@@ -254,95 +207,8 @@ namespace FileConverterLib
 
         private static void PdfFileToJpgFilesZip(string pdfFileName)
         {
-            PdfFileToJpgFilesZip(pdfFileName, GetFileNameInSameFolder(pdfFileName));
+            PdfFileToJpgFilesZip(pdfFileName, FileConverterUtils.GetFileNameInSameFolder(pdfFileName));
         }
         #endregion
-
-        #region WORD to PDF
-        public static void DocxFileToPdfFile(string wordFileName, string pdfFileFolder)
-        {
-            if(Path.GetExtension(wordFileName).ToLower() != ".docx" && Path.GetExtension(wordFileName).ToLower() != ".doc")
-                wordFileName = Path.ChangeExtension(wordFileName, "docx");
-
-            using (Process process = new Process())
-            {
-                ProcessStartInfo info = new ProcessStartInfo();
-                info.FileName = "soffice";
-                info.WorkingDirectory = sofficePath;
-                info.Arguments = $"--headless --convert-to \"pdf:writer_pdf_Export\" \"{wordFileName}\" --outdir \"{pdfFileFolder}\"";
-                info.UseShellExecute = true;
-                process.StartInfo = info;
-
-                process.Start();
-                process.WaitForExit();
-                process.Close();
-            }
-        }
-        #endregion
-
-        #region PDF to WORD
-        public static void PdfFileToDocxFile(string pdfFileName, string wordFileFolder)
-        {
-            pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
-
-            using (var pdfDocument = PdfReader.Open(pdfFileName))
-            {
-                
-            }
-
-            using (Process process = new Process())
-            {
-                ProcessStartInfo info = new ProcessStartInfo();
-                info.FileName = "soffice";
-                info.WorkingDirectory = sofficePath;
-                info.Arguments = $"--headless --infilter=\"writer_pdf_import\" --convert-to docx \"{pdfFileName}\" --outdir \"{wordFileFolder}\"";
-                info.UseShellExecute = true;
-                process.StartInfo = info;
-
-                process.Start();
-                process.WaitForExit();
-                process.Close();
-            }
-        }
-        #endregion
-
-        #region Pptx to PDF
-        public static void PptxFileToPdfFile(string pptxFileName, string pdfFileFolder)
-        {
-            if (Path.GetExtension(pptxFileName).ToLower() != ".pptx" && Path.GetExtension(pptxFileName).ToLower() != ".ppt")
-                pptxFileName = Path.ChangeExtension(pptxFileName, "pptx");
-            using (Process process = new Process())
-            {
-                ProcessStartInfo info = new ProcessStartInfo();
-                info.FileName = "soffice";
-                info.WorkingDirectory = sofficePath;
-                info.Arguments = $"--headless --convert-to \"pdf\" \"{pptxFileName}\" --outdir \"{pdfFileFolder}\"";
-                info.UseShellExecute = true;
-                process.StartInfo = info;
-
-                process.Start();
-                process.WaitForExit();
-                process.Close();
-            }
-        }
-        #endregion
-
-        private static string GetFileNameInSameFolder(string fileName)
-        {
-            var dirPath = Path.GetDirectoryName(fileName);
-            var _fileName = Path.GetFileNameWithoutExtension(fileName);
-
-            return Path.Combine(dirPath, _fileName);
-        }
-
-        private static string GetFileNameInSameFolder(string fileName, string extension)
-        {
-            return GetFileNameInSameFolder(fileName) + "." + extension;
-        }
-
-        private static int PointsToPixels(double points)
-        {
-            return (int)Math.Round(points * 1.333f);
-        }
     }
 }

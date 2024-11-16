@@ -33,7 +33,7 @@ namespace FileConverterLib.Tests
         [TestMethod]
         public void Test_WordToPdf_LibreOffice_2params()
         {
-            string filename = "test_word_1";
+            string filename = "test_word";
             LibreOfficeConverter.DocxFileToPdfFile(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename));
 
             Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.pdf")));
@@ -43,7 +43,7 @@ namespace FileConverterLib.Tests
         [TestMethod]
         public void Test_WordToPdf_LibreOffice_1param()
         {
-            string filename = "test_word_1";
+            string filename = "test_word";
             File.Copy(Path.Combine(pathTestfiles, $"{filename}.docx"), Path.Combine(pathResult, $"{filename}.docx"));
 
             LibreOfficeConverter.DocxFileToPdfFile(Path.Combine(pathResult, $"{filename}_conv.pdf"));

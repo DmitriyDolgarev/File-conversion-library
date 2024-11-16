@@ -46,7 +46,8 @@ Generated\ Files/
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
-FileConverterLib.Tests/resultfiles
+/FileConverterLib/FileConverterLib.Tests/resultfiles
+
 
 # NUnit
 *.VisualState.xml

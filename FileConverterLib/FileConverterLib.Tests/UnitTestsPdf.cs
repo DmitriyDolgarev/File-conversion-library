@@ -1,91 +1,14 @@
-using PdfSharp.Pdf;
+п»їusing PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using System.IO.Compression;
 
-using FileConverterLib.Images;
 using FileConverterLib.PDF;
-using FileConverterLib.MSOffice;
-using FileConverterLib.LibreOffice;
 
 namespace FileConverterLib.Tests
 {
     [TestClass]
-    public class UnitTests
+    public class UnitTestsPdf: AbstractUnitTests
     {
-        private static string pathTestfiles = @"..\..\..\..\FileConverterLib.Tests\testfiles";
-        private static string pathResult = @"..\..\..\..\FileConverterLib.Tests\resultfiles";
-
-        [ClassInitialize]
-        public static void BeforeTests(TestContext _context)
-        {
-            //создаём папку в которой будут хранится все файлы для тестов
-            if (!Directory.Exists(pathResult))
-                Directory.CreateDirectory(pathResult);
-
-            // удаляем все тестовые файлы
-            foreach (string f in Directory.GetFiles(pathResult))
-                File.Delete(f);
-
-            //удаляем все тестовые папки
-            foreach(string d in Directory.GetDirectories(pathResult))
-                Directory.Delete(d,true);
-        }
-
-        #region Test_PngToJpg
-
-        [TestMethod]
-        public void Test_PngToJpg_2params()
-        {
-            string filename = "test_png";
-            ImageConverter.PngFileToJpgFile(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename));
-
-            //проверяем сущестсвует ли файл с таким путём
-            Assert.IsTrue(File.Exists(Path.Combine(pathResult,$"{filename}.jpg")));
-
-        }
-
-        [TestMethod]
-        public void Test_PngToJpg_1param()
-        {
-            string filename = "test_png";
-            File.Copy(Path.Combine(pathTestfiles, $"{filename}.png"), Path.Combine(pathResult, $"{filename}.png"));
-            ImageConverter.PngFileToJpgFile(Path.Combine(pathResult, filename));
-
-            //проверяем сущестсвует ли файл с таким путём
-            Assert.IsTrue(File.Exists(Path.Combine(pathResult,$"{filename}.jpg")));
-
-        }
-
-        #endregion
-
-        #region Test_JpgToPng
-        [TestMethod]
-        public void Test_JpgToPng_2params()
-        {
-            string filename = "test_jpg";
-            ImageConverter.JpgFileToPngFile(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename));
-
-            //проверяем сущестсвует ли файл с таким путём
-            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.png")));
-
-        }
-
-        [TestMethod]
-        public void Test_JpgToPng_1param()
-        {
-            string filename = "test_jpg";
-
-            //копируем файл из папки testfiles в папку results, чтобы создать преобразованный файл в папке с исходным и с тем же названием
-            File.Copy(Path.Combine(pathTestfiles, $"{filename}.jpg"), Path.Combine(pathResult, $"{filename}.jpg"));
-            ImageConverter.JpgFileToPngFile(Path.Combine(pathResult, filename));
-
-            //проверяем сущестсвует ли файл с таким путём
-            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.png")));
-
-        }
-
-        #endregion
-
         #region Test_PdfToJpg
         [TestMethod]
         public void Test_PdfToJpgs_folder_2param()
@@ -93,22 +16,22 @@ namespace FileConverterLib.Tests
             string filename = "test_pdf_1";
             PDFConverter.PdfFileToJpgFiles(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename), false);
 
-            //открываем pdf 
+            //РѕС‚РєСЂС‹РІР°РµРј pdf 
             using (PdfDocument document = PdfReader.Open(Path.Combine(pathTestfiles, $"{filename}.pdf")))
             {
-                //получаем полные пути файлов из папки
+                //РїРѕР»СѓС‡Р°РµРј РїРѕР»РЅС‹Рµ РїСѓС‚Рё С„Р°Р№Р»РѕРІ РёР· РїР°РїРєРё
                 string[] files_full = Directory.GetFiles(Path.Combine(pathResult, filename));
-                //проверям равно ли количество файлов в папке числу страниц в pdf
+                //РїСЂРѕРІРµСЂСЏРј СЂР°РІРЅРѕ Р»Рё РєРѕР»РёС‡РµСЃС‚РІРѕ С„Р°Р№Р»РѕРІ РІ РїР°РїРєРµ С‡РёСЃР»Сѓ СЃС‚СЂР°РЅРёС† РІ pdf
                 Assert.AreEqual(document.PageCount, files_full.Length);
 
-                //получаем названия файлов из их полных путей
+                //РїРѕР»СѓС‡Р°РµРј РЅР°Р·РІР°РЅРёСЏ С„Р°Р№Р»РѕРІ РёР· РёС… РїРѕР»РЅС‹С… РїСѓС‚РµР№
                 string[] files = new string[files_full.Length];
                 for (int i = 0; i < files_full.Length; i++)
                 {
                     files[i] = Path.GetFileName(files_full[i]);
                 }
 
-                //проверяем существуют ли файлы для каждой страницы pdf
+                //РїСЂРѕРІРµСЂСЏРµРј СЃСѓС‰РµСЃС‚РІСѓСЋС‚ Р»Рё С„Р°Р№Р»С‹ РґР»СЏ РєР°Р¶РґРѕР№ СЃС‚СЂР°РЅРёС†С‹ pdf
                 bool isCorrect = true;
                 for (int i = 1; i <= document.PageCount; i++)
                 {
@@ -129,27 +52,27 @@ namespace FileConverterLib.Tests
         {
             string filename = "test_pdf_2";
 
-            //копируем файл из папки testfiles в папку results, чтобы создать папку с изображениями в папке с исходным и с тем же названием
+            //РєРѕРїРёСЂСѓРµРј С„Р°Р№Р» РёР· РїР°РїРєРё testfiles РІ РїР°РїРєСѓ results, С‡С‚РѕР±С‹ СЃРѕР·РґР°С‚СЊ РїР°РїРєСѓ СЃ РёР·РѕР±СЂР°Р¶РµРЅРёСЏРјРё РІ РїР°РїРєРµ СЃ РёСЃС…РѕРґРЅС‹Рј Рё СЃ С‚РµРј Р¶Рµ РЅР°Р·РІР°РЅРёРµРј
             File.Copy(Path.Combine(pathTestfiles, $"{filename}.pdf"), Path.Combine(pathResult, $"{filename}.pdf"));
             PDFConverter.PdfFileToJpgFiles(Path.Combine(pathResult, filename), false);
             
-            // открываем pdf
+            // РѕС‚РєСЂС‹РІР°РµРј pdf
             using (PdfDocument document = PdfReader.Open(Path.Combine(pathResult, $"{filename}.pdf")))
             {
-                //получаем полные пути файлов из папки
+                //РїРѕР»СѓС‡Р°РµРј РїРѕР»РЅС‹Рµ РїСѓС‚Рё С„Р°Р№Р»РѕРІ РёР· РїР°РїРєРё
                 string[] files_full = Directory.GetFiles(Path.Combine(pathResult, filename));
 
-                //проверям равно ли количество файлов в папке числу страниц в pdf
+                //РїСЂРѕРІРµСЂСЏРј СЂР°РІРЅРѕ Р»Рё РєРѕР»РёС‡РµСЃС‚РІРѕ С„Р°Р№Р»РѕРІ РІ РїР°РїРєРµ С‡РёСЃР»Сѓ СЃС‚СЂР°РЅРёС† РІ pdf
                 Assert.AreEqual(document.PageCount, files_full.Length);
 
-                //получаем названия файлов из их полных путей
+                //РїРѕР»СѓС‡Р°РµРј РЅР°Р·РІР°РЅРёСЏ С„Р°Р№Р»РѕРІ РёР· РёС… РїРѕР»РЅС‹С… РїСѓС‚РµР№
                 string[] files = new string[files_full.Length];
                 for (int i = 0; i < files_full.Length; i++)
                 {
                     files[i] = Path.GetFileName(files_full[i]);
                 }
 
-                //проверяем существуют ли файлы для каждой страницы pdf
+                //РїСЂРѕРІРµСЂСЏРµРј СЃСѓС‰РµСЃС‚РІСѓСЋС‚ Р»Рё С„Р°Р№Р»С‹ РґР»СЏ РєР°Р¶РґРѕР№ СЃС‚СЂР°РЅРёС†С‹ pdf
                 bool isCorrect = true;
                 for (int i = 1; i <= document.PageCount; i++)
                 {
@@ -170,26 +93,26 @@ namespace FileConverterLib.Tests
             string filename = "test_pdf_1";
             PDFConverter.PdfFileToJpgFiles(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename), true);
 
-            //проверяем существует ли архив с таким названием
+            //РїСЂРѕРІРµСЂСЏРµРј СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё Р°СЂС…РёРІ СЃ С‚Р°РєРёРј РЅР°Р·РІР°РЅРёРµРј
             Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.zip")));
 
-            //открываем pdf 
+            //РѕС‚РєСЂС‹РІР°РµРј pdf 
             using (PdfDocument document = PdfReader.Open(Path.Combine(pathTestfiles, $"{filename}.pdf")))
             {
-                //открываем архив
+                //РѕС‚РєСЂС‹РІР°РµРј Р°СЂС…РёРІ
                 using (ZipArchive archive = ZipFile.OpenRead(Path.Combine(pathResult,$"{filename}.zip")))
                 {
-                    //получаем названия файлов из архива
+                    //РїРѕР»СѓС‡Р°РµРј РЅР°Р·РІР°РЅРёСЏ С„Р°Р№Р»РѕРІ РёР· Р°СЂС…РёРІР°
                     string[] files= new string[archive.Entries.ToArray().Length];
                     for (int i=0; i < archive.Entries.ToArray().Length; i++)
                     {
                         files[i] = archive.Entries[i].FullName;
                     }
 
-                    // проверяем равно ли количество файлов в архиве количеству страниц в pdf
+                    // РїСЂРѕРІРµСЂСЏРµРј СЂР°РІРЅРѕ Р»Рё РєРѕР»РёС‡РµСЃС‚РІРѕ С„Р°Р№Р»РѕРІ РІ Р°СЂС…РёРІРµ РєРѕР»РёС‡РµСЃС‚РІСѓ СЃС‚СЂР°РЅРёС† РІ pdf
                     Assert.AreEqual(document.PageCount, files.Length);
 
-                    //проверяем существуют ли файлы для каждой страницы pdf
+                    //РїСЂРѕРІРµСЂСЏРµРј СЃСѓС‰РµСЃС‚РІСѓСЋС‚ Р»Рё С„Р°Р№Р»С‹ РґР»СЏ РєР°Р¶РґРѕР№ СЃС‚СЂР°РЅРёС†С‹ pdf
                     bool isCorrect = true;
                     for (int i = 1; i <= document.PageCount; i++)
                     {
@@ -213,30 +136,30 @@ namespace FileConverterLib.Tests
         {
             string filename = "test_pdf_to_word";
 
-            //копируем файл из папки testfiles в папку results, чтобы создать папку с изображениями в папке с исходным и с тем же названием
+            //РєРѕРїРёСЂСѓРµРј С„Р°Р№Р» РёР· РїР°РїРєРё testfiles РІ РїР°РїРєСѓ results, С‡С‚РѕР±С‹ СЃРѕР·РґР°С‚СЊ РїР°РїРєСѓ СЃ РёР·РѕР±СЂР°Р¶РµРЅРёСЏРјРё РІ РїР°РїРєРµ СЃ РёСЃС…РѕРґРЅС‹Рј Рё СЃ С‚РµРј Р¶Рµ РЅР°Р·РІР°РЅРёРµРј
             File.Copy(Path.Combine(pathTestfiles, $"{filename}.pdf"), Path.Combine(pathResult, $"{filename}.pdf"));
             PDFConverter.PdfFileToJpgFiles(Path.Combine(pathResult, filename), true);
 
-            //проверяем существует ли архив с таким названием
+            //РїСЂРѕРІРµСЂСЏРµРј СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё Р°СЂС…РёРІ СЃ С‚Р°РєРёРј РЅР°Р·РІР°РЅРёРµРј
             Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.zip")));
 
-            //открываем pdf
+            //РѕС‚РєСЂС‹РІР°РµРј pdf
             using (PdfDocument document = PdfReader.Open(Path.Combine(pathResult, $"{filename}.pdf")))
             {
-                //открываем архив
+                //РѕС‚РєСЂС‹РІР°РµРј Р°СЂС…РёРІ
                 using (ZipArchive archive = ZipFile.OpenRead(Path.Combine(pathResult, $"{filename}.zip")))
                 {
-                    //получаем названия файлов из архива
+                    //РїРѕР»СѓС‡Р°РµРј РЅР°Р·РІР°РЅРёСЏ С„Р°Р№Р»РѕРІ РёР· Р°СЂС…РёРІР°
                     string[] files = new string[archive.Entries.ToArray().Length];
                     for (int i = 0; i < archive.Entries.ToArray().Length; i++)
                     {
                         files[i] = archive.Entries[i].FullName;
                     }
 
-                    // проверяем равно ли количество файлов в архиве количеству страниц в pdf
+                    // РїСЂРѕРІРµСЂСЏРµРј СЂР°РІРЅРѕ Р»Рё РєРѕР»РёС‡РµСЃС‚РІРѕ С„Р°Р№Р»РѕРІ РІ Р°СЂС…РёРІРµ РєРѕР»РёС‡РµСЃС‚РІСѓ СЃС‚СЂР°РЅРёС† РІ pdf
                     Assert.AreEqual(document.PageCount, files.Length);
 
-                    //проверяем существуют ли файлы для каждой страницы pdf
+                    //РїСЂРѕРІРµСЂСЏРµРј СЃСѓС‰РµСЃС‚РІСѓСЋС‚ Р»Рё С„Р°Р№Р»С‹ РґР»СЏ РєР°Р¶РґРѕР№ СЃС‚СЂР°РЅРёС†С‹ pdf
                     bool isCorrect = true;
                     for (int i = 1; i <= document.PageCount; i++)
                     {
@@ -349,6 +272,5 @@ namespace FileConverterLib.Tests
             }
         }
         #endregion
-
     }
 }

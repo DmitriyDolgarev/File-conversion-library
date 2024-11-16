@@ -14,5 +14,13 @@
         {
             return GetFileNameInSameFolder(fileName) + "." + extension;
         }
+
+        public static string GetCorrectedPath(string fileName, string extension)
+        {
+            if (Path.GetExtension(fileName) == "")
+                fileName = Path.ChangeExtension(fileName, extension);
+
+            return Path.GetFullPath(fileName);
+        }
     }
 }

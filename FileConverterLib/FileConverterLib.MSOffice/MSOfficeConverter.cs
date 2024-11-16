@@ -41,9 +41,8 @@ namespace FileConverterLib.MSOffice
         #region Word to PDF
         public static void DocxFileToPdfFile(string wordFileName, string pdfFileName)
         {
-            pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
-            if (Path.GetExtension(wordFileName).ToLower() != ".docx" && Path.GetExtension(wordFileName).ToLower() != ".doc")
-                wordFileName = Path.ChangeExtension(wordFileName, "docx");
+            pdfFileName = FileConverterUtils.GetCorrectedPath(pdfFileName, "pdf");
+            wordFileName = FileConverterUtils.GetCorrectedPath(wordFileName, "docx");
 
             ConvertWord(wordFileName, pdfFileName, WdSaveFormat.wdFormatPDF);
         }
@@ -57,9 +56,8 @@ namespace FileConverterLib.MSOffice
         #region PDF to Word
         public static void PdfFileToDocxFile(string pdfFileName, string wordFileName)
         {
-            pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
-            if (Path.GetExtension(wordFileName).ToLower() != ".docx" && Path.GetExtension(wordFileName).ToLower() != ".doc")
-                wordFileName = Path.ChangeExtension(wordFileName, "docx");
+            pdfFileName = FileConverterUtils.GetCorrectedPath(pdfFileName, "pdf");
+            wordFileName = FileConverterUtils.GetCorrectedPath(wordFileName, "docx");
 
             ConvertWord(pdfFileName, wordFileName, WdSaveFormat.wdFormatDocumentDefault);
         }
@@ -73,9 +71,8 @@ namespace FileConverterLib.MSOffice
         #region Pptx to PDF
         public static void PptxFileToPdfFile(string pptxFileName, string pdfFileName)
         {
-            pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
-            if (Path.GetExtension(pptxFileName).ToLower() != ".pptx" && Path.GetExtension(pptxFileName).ToLower() != ".ppt")
-                pptxFileName = Path.ChangeExtension(pptxFileName, "pptx");
+            pdfFileName = FileConverterUtils.GetCorrectedPath(pdfFileName, "pdf");
+            pptxFileName = FileConverterUtils.GetCorrectedPath(pptxFileName, "pptx");
 
             object unknownType = Type.Missing;
 

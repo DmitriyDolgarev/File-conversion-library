@@ -8,8 +8,8 @@ namespace FileConverterLib.Images
         #region JPG to PNG
         public static void JpgFileToPngFile(string jpgFileName, string pngFileName)
         {
-            jpgFileName = Path.ChangeExtension(jpgFileName, "jpg");
-            pngFileName = Path.ChangeExtension(pngFileName, "png");
+            jpgFileName = FileConverterUtils.GetCorrectedPath(jpgFileName, "jpg");
+            pngFileName = FileConverterUtils.GetCorrectedPath(pngFileName, "png");
 
             using (var img = SKImage.FromEncodedData(jpgFileName))
             {
@@ -32,8 +32,8 @@ namespace FileConverterLib.Images
         #region PNG TO JPG
         public static void PngFileToJpgFile(string pngFileName, string jpgFileName)
         {
-            pngFileName = Path.ChangeExtension(pngFileName, "png");
-            jpgFileName = Path.ChangeExtension(jpgFileName, "jpg");
+            pngFileName = FileConverterUtils.GetCorrectedPath(pngFileName, "png");
+            jpgFileName = FileConverterUtils.GetCorrectedPath(jpgFileName, "jpg");
 
             using (var img = SKImage.FromEncodedData(pngFileName))
             {

@@ -19,9 +19,9 @@ namespace FileConverterLib.PDF
         #region Merge PDFs
         public static void MergePDFs(string[] pdfFiles, string pdfOutput)
         {
-            pdfOutput = Path.ChangeExtension(pdfOutput, "pdf");
+            pdfOutput = FileConverterUtils.GetCorrectedPath(pdfOutput, "pdf");
             for (int i = 0; i < pdfFiles.Length; i++)
-                pdfFiles[i] = Path.ChangeExtension(pdfFiles[i], "pdf");
+                pdfFiles[i] = FileConverterUtils.GetCorrectedPath(pdfFiles[i], "pdf");
 
             using (var outputDocument = new PdfDocument())
             {
@@ -44,9 +44,9 @@ namespace FileConverterLib.PDF
         #region Split PDF
         public static void SplitPDF(string pdfInput, int pageSplitFrom, string pdf1Output, string pdf2Output)
         {
-            pdfInput = Path.ChangeExtension(pdfInput, "pdf");
-            pdf1Output = Path.ChangeExtension(pdf1Output, "pdf");
-            pdf2Output = Path.ChangeExtension(pdf2Output, "pdf");
+            pdfInput = FileConverterUtils.GetCorrectedPath(pdfInput, "pdf");
+            pdf1Output = FileConverterUtils.GetCorrectedPath(pdf1Output, "pdf");
+            pdf2Output = FileConverterUtils.GetCorrectedPath(pdf2Output, "pdf");
 
             using (var inputDocument = PdfReader.Open(pdfInput, PdfDocumentOpenMode.Import))
             {
@@ -83,9 +83,9 @@ namespace FileConverterLib.PDF
         #region JPG to PDF
         public static void JpgFilesToPdfFile(string[] jpgFiles, string pdfFileName)
         {
-            pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
+            pdfFileName = FileConverterUtils.GetCorrectedPath(pdfFileName, "pdf");
             for (int i = 0; i < jpgFiles.Length; i++)
-                jpgFiles[i] = Path.ChangeExtension(jpgFiles[i], "jpg");
+                jpgFiles[i] = FileConverterUtils.GetCorrectedPath(jpgFiles[i], "jpg");
 
             using (PdfDocument document = new PdfDocument())
             {
@@ -125,7 +125,8 @@ namespace FileConverterLib.PDF
 
         private static void PdfFileToJpgFilesFolder(string pdfFileName, string jpgFolderName)
         {
-            pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
+            pdfFileName = FileConverterUtils.GetCorrectedPath(pdfFileName, "pdf");
+            jpgFolderName = Path.GetFullPath(jpgFolderName);
             if (!Directory.Exists(jpgFolderName))
                 Directory.CreateDirectory(jpgFolderName);
 
@@ -163,9 +164,8 @@ namespace FileConverterLib.PDF
 
         private static void PdfFileToJpgFilesZip(string pdfFileName, string jpgFolderName)
         {
-            pdfFileName = Path.ChangeExtension(pdfFileName, "pdf");
-            jpgFolderName = Path.ChangeExtension(jpgFolderName, "zip");
-
+            pdfFileName = FileConverterUtils.GetCorrectedPath(pdfFileName, "pdf");
+            jpgFolderName = FileConverterUtils.GetCorrectedPath(jpgFolderName, "zip");
 
             using (var fs = new FileStream(jpgFolderName, FileMode.OpenOrCreate))
             {

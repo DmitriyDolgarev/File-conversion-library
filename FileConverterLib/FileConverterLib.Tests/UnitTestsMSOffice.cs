@@ -1,12 +1,4 @@
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
-using System.IO.Compression;
-
-using FileConverterLib.Images;
-using FileConverterLib.PDF;
 using FileConverterLib.MSOffice;
-using FileConverterLib.LibreOffice;
-using System.Net;
 
 namespace FileConverterLib.Tests
 {

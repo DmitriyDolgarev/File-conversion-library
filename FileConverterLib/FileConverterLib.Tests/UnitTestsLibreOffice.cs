@@ -34,9 +34,9 @@ namespace FileConverterLib.Tests
         public void Test_WordToPdf_LibreOffice_2params()
         {
             string filename = "test_word";
-            LibreOfficeConverter.DocxFileToPdfFile(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename));
+            LibreOfficeConverter.DocxFileToPdfFile(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, $"{filename}_conv.pdf"));
 
-            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.pdf")));
+            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}_conv.pdf")));
 
         }
 
@@ -46,9 +46,9 @@ namespace FileConverterLib.Tests
             string filename = "test_word";
             File.Copy(Path.Combine(pathTestfiles, $"{filename}.docx"), Path.Combine(pathResult, $"{filename}.docx"));
 
-            LibreOfficeConverter.DocxFileToPdfFile(Path.Combine(pathResult, $"{filename}_conv.pdf"));
+            LibreOfficeConverter.DocxFileToPdfFile(Path.Combine(pathResult, filename));
 
-            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}_conv.pdf")));
+            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.pdf")));
 
         }
         #endregion
@@ -58,9 +58,9 @@ namespace FileConverterLib.Tests
         public void Test_PptxToPdf_LibreOffice_2params()
         {
             string filename = "test_powerpoint";
-            LibreOfficeConverter.PptxFileToPdfFile(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename));
+            LibreOfficeConverter.PptxFileToPdfFile(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, $"{filename}_conv.pdf"));
 
-            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.pdf")));
+            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}_conv.pdf")));
 
         }
 
@@ -70,9 +70,9 @@ namespace FileConverterLib.Tests
             string filename = "test_powerpoint";
             File.Copy(Path.Combine(pathTestfiles, $"{filename}.pptx"), Path.Combine(pathResult, $"{filename}.pptx"));
 
-            LibreOfficeConverter.PptxFileToPdfFile(Path.Combine(pathResult, $"{filename}_conv.pdf"));
+            LibreOfficeConverter.PptxFileToPdfFile(Path.Combine(pathResult, $"{filename}.pdf"));
 
-            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}_conv.pdf")));
+            Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.pdf")));
 
         }
         #endregion

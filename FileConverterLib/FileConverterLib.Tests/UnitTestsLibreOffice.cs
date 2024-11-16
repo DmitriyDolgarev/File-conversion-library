@@ -70,7 +70,7 @@ namespace FileConverterLib.Tests
             string filename = "test_powerpoint";
             File.Copy(Path.Combine(pathTestfiles, $"{filename}.pptx"), Path.Combine(pathResult, $"{filename}.pptx"));
 
-            LibreOfficeConverter.PptxFileToPdfFile(Path.Combine(pathResult, $"{filename}.pdf"));
+            LibreOfficeConverter.PptxFileToPdfFile(Path.Combine(pathResult, filename));
 
             Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.pdf")));
 

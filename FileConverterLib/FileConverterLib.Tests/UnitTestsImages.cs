@@ -1,4 +1,4 @@
-using FileConverterLib.Images;
+п»їusing FileConverterLib.Images;
 
 namespace FileConverterLib.Tests
 {
@@ -12,7 +12,7 @@ namespace FileConverterLib.Tests
             string filename = "test_png";
             ImageConverter.PngFileToJpgFile(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename));
 
-            //проверяем сущестсвует ли файл с таким путём
+            //РїСЂРѕРІРµСЂСЏРµРј СЃСѓС‰РµСЃС‚СЃРІСѓРµС‚ Р»Рё С„Р°Р№Р» СЃ С‚Р°РєРёРј РїСѓС‚С‘Рј
             Assert.IsTrue(File.Exists(Path.Combine(pathResult,$"{filename}.jpg")));
 
         }
@@ -24,7 +24,7 @@ namespace FileConverterLib.Tests
             File.Copy(Path.Combine(pathTestfiles, $"{filename}.png"), Path.Combine(pathResult, $"{filename}.png"));
             ImageConverter.PngFileToJpgFile(Path.Combine(pathResult, filename));
 
-            //проверяем сущестсвует ли файл с таким путём
+            //РїСЂРѕРІРµСЂСЏРµРј СЃСѓС‰РµСЃС‚СЃРІСѓРµС‚ Р»Рё С„Р°Р№Р» СЃ С‚Р°РєРёРј РїСѓС‚С‘Рј
             Assert.IsTrue(File.Exists(Path.Combine(pathResult,$"{filename}.jpg")));
 
         }
@@ -38,7 +38,7 @@ namespace FileConverterLib.Tests
             string filename = "test_jpg";
             ImageConverter.JpgFileToPngFile(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename));
 
-            //проверяем сущестсвует ли файл с таким путём
+            //РїСЂРѕРІРµСЂСЏРµРј СЃСѓС‰РµСЃС‚СЃРІСѓРµС‚ Р»Рё С„Р°Р№Р» СЃ С‚Р°РєРёРј РїСѓС‚С‘Рј
             Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.png")));
 
         }
@@ -48,11 +48,11 @@ namespace FileConverterLib.Tests
         {
             string filename = "test_jpg";
 
-            //копируем файл из папки testfiles в папку results, чтобы создать преобразованный файл в папке с исходным и с тем же названием
+            //РєРѕРїРёСЂСѓРµРј С„Р°Р№Р» РёР· РїР°РїРєРё testfiles РІ РїР°РїРєСѓ results, С‡С‚РѕР±С‹ СЃРѕР·РґР°С‚СЊ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРЅС‹Р№ С„Р°Р№Р» РІ РїР°РїРєРµ СЃ РёСЃС…РѕРґРЅС‹Рј Рё СЃ С‚РµРј Р¶Рµ РЅР°Р·РІР°РЅРёРµРј
             File.Copy(Path.Combine(pathTestfiles, $"{filename}.jpg"), Path.Combine(pathResult, $"{filename}.jpg"));
             ImageConverter.JpgFileToPngFile(Path.Combine(pathResult, filename));
 
-            //проверяем сущестсвует ли файл с таким путём
+            //РїСЂРѕРІРµСЂСЏРµРј СЃСѓС‰РµСЃС‚СЃРІСѓРµС‚ Р»Рё С„Р°Р№Р» СЃ С‚Р°РєРёРј РїСѓС‚С‘Рј
             Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.png")));
 
         }

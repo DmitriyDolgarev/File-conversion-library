@@ -3,8 +3,8 @@
     [TestClass]
     public abstract class AbstractUnitTests
     {
-        protected static string pathTestfiles = Path.GetFullPath(Path.Combine("..", "..", "..", "..", "FileConverterLib.Tests", "testfiles"));
-        protected static string pathResult = Path.GetFullPath(Path.Combine("..", "..", "..", "..", "FileConverterLib.Tests", "resultfiles"));
+        protected static string pathTestfiles = Path.GetFullPath(Path.Combine("..", "..", "..", "testfiles"));
+        protected static string pathResult = Path.GetFullPath(Path.Combine("..", "..", "..", "resultfiles"));
 
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
         public static void BeforeTests(TestContext _context)

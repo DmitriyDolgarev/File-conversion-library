@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -19,7 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FileConverterLib.Images\FileConverterLib.Images.csproj" />
     <ProjectReference Include="..\FileConverterLib.LibreOffice\FileConverterLib.LibreOffice.csproj" />
-    <ProjectReference Include="..\FileConverterLib.MSOffice\FileConverterLib.MSOffice.csproj" />
+    <ProjectReference Include="..\FileConverterLib.MSOffice\FileConverterLib.MSOffice.csproj" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOsPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'"/>
     <ProjectReference Include="..\FileConverterLib.PDF\FileConverterLib.PDF.csproj" />
   </ItemGroup>
 
@@ -31,4 +31,7 @@
     <Folder Include="testfiles\test_jpgs_to_pdf\" />
   </ItemGroup>
 
+	<PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOsPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'">
+		<DefineConstants>WINDOWS</DefineConstants>
+	</PropertyGroup>
 </Project>

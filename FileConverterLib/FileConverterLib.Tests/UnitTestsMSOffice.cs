@@ -1,3 +1,4 @@
+#if WINDOWS
 using FileConverterLib.MSOffice;
 
 namespace FileConverterLib.Tests
@@ -11,7 +12,7 @@ namespace FileConverterLib.Tests
         {
             string filename = "test_word";
             MSOfficeConverter.DocxFileToPdfFile(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename));
-
+            
             Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.pdf")));
 
         }
@@ -78,3 +79,4 @@ namespace FileConverterLib.Tests
         #endregion
     }
 }
+#endif

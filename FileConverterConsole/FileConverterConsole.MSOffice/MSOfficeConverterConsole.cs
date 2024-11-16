@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿#if WINDOWS
+using CommandLine;
 using FileConverterLib.MSOffice;
 
 namespace FileConverterConsole.MSOffice
@@ -36,3 +37,15 @@ namespace FileConverterConsole.MSOffice
         }
     }
 }
+
+#else
+namespace FileConverterConsole.MSOffice
+{
+    internal class MSOfficeConverterConsole
+    {
+        static void Main(string[] args)
+        {
+        }
+    }
+}
+#endif

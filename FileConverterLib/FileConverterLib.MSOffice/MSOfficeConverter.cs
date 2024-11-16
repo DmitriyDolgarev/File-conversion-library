@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Core;
+﻿#if WINDOWS
+using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Interop.PowerPoint;
 using FileConverterLib.Utils;
@@ -102,3 +103,4 @@ namespace FileConverterLib.MSOffice
         #endregion
     }
 }
+#endif

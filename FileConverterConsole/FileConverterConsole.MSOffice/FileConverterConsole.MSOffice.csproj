@@ -13,7 +13,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\FileConverterLib\FileConverterLib.MSOffice\FileConverterLib.MSOffice.csproj" />
+		<ProjectReference Include="..\..\FileConverterLib\FileConverterLib.MSOffice\FileConverterLib.MSOffice.csproj" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOsPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'"/>
 	</ItemGroup>
 
+	<PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOsPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'">
+		<DefineConstants>WINDOWS</DefineConstants>
+	</PropertyGroup>
 </Project>

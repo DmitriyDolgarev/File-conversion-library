@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 	
-	<ItemGroup>
+	<ItemGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOsPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'">
 		<COMReference Include="Microsoft.Office.Interop.Word">
 			<WrapperTool>tlbimp</WrapperTool>
 			<VersionMinor>7</VersionMinor>
@@ -35,4 +35,8 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\FileConverterLib.Utils\FileConverterLib.Utils.csproj" />
 	</ItemGroup>
+	
+	<PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOsPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'">
+		<DefineConstants>WINDOWS</DefineConstants>
+	</PropertyGroup>
 </Project>

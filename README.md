@@ -2,43 +2,43 @@
 
 - [**Описание библиотеки по преобразованию файлов**](#описание-библиотеки-по-преобразованию-файлов)
 - [**Функционал библиотеки**](#функционал-библиотеки)
-  - [**Модуль Images:**](#модуль-images)
-    - [**Конвертация JPG в PNG:**](#конвертация-jpg-в-png)
-    - [**Конвертация PNG в JPG:**](#конвертация-png-в-jpg)
-  - [**Модуль LibreOffice:**](#модуль-libreoffice)
-    - [**Конвертация Docx в PDF:**](#конвертация-docx-в-pdf)
-    - [**Конвертация PDF в Docx:**](#конвертация-pdf-в-docx)
-    - [**Конвертация PPTX в PDF:**](#конвертация-pptx-в-pdf)
-  - [**Модуль MSOffice:**](#модуль-msoffice)
-    - [**Конвертация Docx в PDF:**](#конвертация-docx-в-pdf-1)
-    - [**Конвертация PDF в Docx:**](#конвертация-pdf-в-docx-1)
-    - [**Конвертация PPTX в PDF:**](#конвертация-pptx-в-pdf-1)
-  - [**Модуль PDF:**](#модуль-pdf)
-    - [**Объединение PDF файлов:**](#объединение-pdf-файлов)
-    - [**Разделение PDF файла:**](#разделение-pdf-файла)
-    - [**Конвертация JPG в PDF:**](#конвертация-jpg-в-pdf)
-    - [**Конвертация PDF в JPG:**](#конвертация-pdf-в-jpg)
+  - [**Модуль Images**](#модуль-images)
+    - [**Конвертация JPG в PNG**](#конвертация-jpg-в-png)
+    - [**Конвертация PNG в JPG**](#конвертация-png-в-jpg)
+  - [**Модуль LibreOffice**](#модуль-libreoffice)
+    - [**Конвертация Docx в PDF**](#конвертация-docx-в-pdf)
+    - [**Конвертация PDF в Docx**](#конвертация-pdf-в-docx)
+    - [**Конвертация PPTX в PDF**](#конвертация-pptx-в-pdf)
+  - [**Модуль MSOffice**](#модуль-msoffice)
+    - [**Конвертация Docx в PDF**](#конвертация-docx-в-pdf-1)
+    - [**Конвертация PDF в Docx**](#конвертация-pdf-в-docx-1)
+    - [**Конвертация PPTX в PDF**](#конвертация-pptx-в-pdf-1)
+  - [**Модуль PDF**](#модуль-pdf)
+    - [**Объединение PDF файлов**](#объединение-pdf-файлов)
+    - [**Разделение PDF файла**](#разделение-pdf-файла)
+    - [**Конвертация JPG в PDF**](#конвертация-jpg-в-pdf)
+    - [**Конвертация PDF в JPG**](#конвертация-pdf-в-jpg)
 - [**Работа с консольными приложениями**](#работа-с-консольными-приложениями)
   - [**Установка**](#установка)
   - [**Начало работы**](#начало-работы)
-  - [**Конвертация JPG в Png:**](#конвертация-jpg-в-png-1)
-  - [**Конвертация Png в JPG:**](#конвертация-png-в-jpg-1)
-  - [**Преобразование файлов при помощи модуля MSOffice:**](#преобразование-файлов-при-помощи-модуля-msoffice)
-    - [**Конвертация Docx в PDF:**](#конвертация-docx-в-pdf-2)
-    - [**Конвертация PDF в Docx:**](#конвертация-pdf-в-docx-2)
-    - [**Конвертация PPTX в PDF:**](#конвертация-pptx-в-pdf-2)
-  - [**Преобразование файлов при помощи модуля LibreOffice:**](#преобразование-файлов-при-помощи-модуля-libreoffice)
-    - [**Конвертация Docx в PDF:**](#конвертация-docx-в-pdf-3)
-    - [**Конвертация PDF в Docx:**](#конвертация-pdf-в-docx-3)
-    - [**Конвертация PPTX в PDF:**](#конвертация-pptx-в-pdf-3)
-  - [**Объединение PDF файлов:**](#объединение-pdf-файлов-1)
-  - [**Разделение PDF файла:**](#разделение-pdf-файла-1)
-  - [**Конвертация JPG в PDF:**](#конвертация-jpg-в-pdf-1)
-  - [**Конвертация PDF в JPG:**](#конвертация-pdf-в-jpg-1)
+  - [**Конвертация JPG в Png**](#конвертация-jpg-в-png-1)
+  - [**Конвертация Png в JPG**](#конвертация-png-в-jpg-1)
+  - [**Преобразование файлов при помощи модуля MSOffice**](#преобразование-файлов-при-помощи-модуля-msoffice)
+    - [**Конвертация Docx в PDF**](#конвертация-docx-в-pdf-2)
+    - [**Конвертация PDF в Docx**](#конвертация-pdf-в-docx-2)
+    - [**Конвертация PPTX в PDF**](#конвертация-pptx-в-pdf-2)
+  - [**Преобразование файлов при помощи модуля LibreOffice**](#преобразование-файлов-при-помощи-модуля-libreoffice)
+    - [**Конвертация Docx в PDF**](#конвертация-docx-в-pdf-3)
+    - [**Конвертация PDF в Docx**](#конвертация-pdf-в-docx-3)
+    - [**Конвертация PPTX в PDF**](#конвертация-pptx-в-pdf-3)
+  - [**Объединение PDF файлов**](#объединение-pdf-файлов-1)
+  - [**Разделение PDF файла**](#разделение-pdf-файла-1)
+  - [**Конвертация JPG в PDF**](#конвертация-jpg-в-pdf-1)
+  - [**Конвертация PDF в JPG**](#конвертация-pdf-в-jpg-1)
 - [**Интеграция**](#интеграция)
-  - [**Интеграция в проект на Node.js:**](#интеграция-в-проект-на-nodejs)
-  - [**Интеграция в проект на PHP:**](#интеграция-в-проект-на-php)
-  - [**Интеграция в проект на Python:**](#интеграция-в-проект-на-python)
+  - [**Интеграция в проект на Node.js**](#интеграция-в-проект-на-nodejs)
+  - [**Интеграция в проект на PHP**](#интеграция-в-проект-на-php)
+  - [**Интеграция в проект на Python**](#интеграция-в-проект-на-python)
 
 
 # **Описание библиотеки по преобразованию файлов**
@@ -59,9 +59,9 @@
 - `MSOfficeConverter` - для работы с Docx, Pptx и PDF файлами.
 
 # **Функционал библиотеки**
-## **Модуль Images:**
+## **Модуль Images**
 
-### **Конвертация JPG в PNG:**
+### **Конвертация JPG в PNG**
 Существует 2 метода: 
 
 1. `JpgFileToPngFile(string jpgFileName, string pngFileName)`: 
@@ -73,7 +73,7 @@
 - `string jpgFileName` - путь до JPG файла.\
 После вызова метода появится PNG файл с таким же именем, что и JPG файл.
 
-### **Конвертация PNG в JPG:**
+### **Конвертация PNG в JPG
 Существует 2 метода: 
 
 1. `PngFileToJpgFile(string pngFileName, string jpgFileName)`: 
@@ -85,14 +85,14 @@
 - `string pngFileName` - путь до PNG файла.\
 После вызова метода появится JPG файл с таким же именем, что и PNG файл.
 
-## **Модуль LibreOffice:**
+## **Модуль LibreOffice
 Перед началом работы необходимо задать путь до soffice.exe полю `sofficePath`: 
 
 ```csharp
 public static string sofficePath = @"Путь до soffice.exe ";
 ```
 
-### **Конвертация Docx в PDF:**
+### **Конвертация Docx в PDF
 Существует 2 метода: 
 
 1. `DocxFileToPdfFile(string wordFileName, string pdfFileName)`: 
@@ -104,7 +104,7 @@ public static string sofficePath = @"Путь до soffice.exe ";
 - `string wordFileName` - путь до Docx файла\
 После вызова метода появится PDF файл с таким же именем, что и Docx файл, в той же папке.
 
-### **Конвертация PDF в Docx:**
+### **Конвертация PDF в Docx
 Существует 2 метода: 
 
 1. `PdfFileToDocxFile(string pdfFileName, string wordFileName)`: 
@@ -116,7 +116,7 @@ public static string sofficePath = @"Путь до soffice.exe ";
 - `string pdfFileName` - путь до PDF файла.\
 После вызова метода появится Docx файл с таким же именем, что и PDF файл, в той же папке.
 
-### **Конвертация PPTX в PDF:**
+### **Конвертация PPTX в PDF
 Существует 2 метода: 
 
 1. `PptxFileToPdfFile(string pptxFileName, string pdfFileName)`: 
@@ -128,8 +128,8 @@ public static string sofficePath = @"Путь до soffice.exe ";
 - `string pptxFileName` - путь до PPTX файла.\
 После вызова метода появится PPTX файл с таким же именем, что и PDF файл, в той же папке.
 
-## **Модуль MSOffice:**
-### **Конвертация Docx в PDF:**
+## **Модуль MSOffice**
+### **Конвертация Docx в PDF**
 Существует 2 метода: 
 
 1. `DocxFileToPdfFile(string wordFileName, string pdfFileName)`: 
@@ -141,7 +141,7 @@ public static string sofficePath = @"Путь до soffice.exe ";
 - `string wordFileName` - путь до Docx файла.\
 После вызова метода появится PDF файл с таким же именем, что и Docx файл, в той же папке.
 
-### **Конвертация PDF в Docx:**
+### **Конвертация PDF в Docx**
 Существует 2 метода: 
 
 1. `PdfFileToDocxFile(string pdfFileName, string wordFileName)`: 
@@ -153,7 +153,7 @@ public static string sofficePath = @"Путь до soffice.exe ";
 - `string pdfFileName` - путь до PDF файла.\
 После вызова метода появится Docx файл с таким же именем, что и PDF файл, в той же папке.
 
-### **Конвертация PPTX в PDF:**
+### **Конвертация PPTX в PDF**
 Существует 2 метода: 
 
 1. `PptxFileToPdfFile(string pptxFileName, string pdfFileName)`: 
@@ -165,14 +165,14 @@ public static string sofficePath = @"Путь до soffice.exe ";
 - `string pptxFileName` - путь до PPTX файла.\
 После вызова метода появится PPTX файл с таким же именем, что и PDF файл, в той же папке.
 
-## **Модуль PDF:**
-### **Объединение PDF файлов:**
+## **Модуль PDF**
+### **Объединение PDF файлов**
 `MergePDFs(string[] pdfFiles, string pdfOutput)`: 
 - `string[] pdfFiles`- список путей до PDF файлов, которые необходимо объеденить.
 - `string pdfOutput`- путь, куда положить PDF файл, который будет содержать в себе все необходимые PDF файлы.\
 После вызова метода появится файл, содержащий в себе необходимый PDF файлы.
 
-### **Разделение PDF файла:**
+### **Разделение PDF файла**
 Существует 2 метода: 
 
 1. `SplitPDF(string pdfInput, int pageSplitFrom, string pdf1Output, string pdf2Output)`: 
@@ -186,14 +186,14 @@ public static string sofficePath = @"Путь до soffice.exe ";
 - `string pptxFileName` - имя PDF файла.\
 После вызова метода появятся 2 PDF файла с именами в следущей форме: имя входного файла + "\_splitted1.pdf", имя входного файла + "\_splitted2.pdf"; файлы появятся в той же папке, что и входной файл.
 
-### **Конвертация JPG в PDF:**
+### **Конвертация JPG в PDF**
 `JpgFilesToPdfFile(string[] jpgFiles, string pdfFileName)`:
 
 - `string[] jpgFiles`- список путей до JPG файлов.
 - `string pdfFileName`- путь, куда положить PDF файл, который будет содержать в себе JPG файлы.\
 После вызова метода появится PDF файл, который будет содержать в себе введенные JPG файлы.
 
-### **Конвертация PDF в JPG:**
+### **Конвертация PDF в JPG**
 Существует 2 метода: 
 
 1. `PdfFileToJpgFiles(string pdfFileName, string jpgFolderName, bool zip = false)`: 
@@ -215,9 +215,21 @@ public static string sofficePath = @"Путь до soffice.exe ";
 Скачайте архив с библиотекой и консольными приложениями и распакуйте его.
 
 ## **Начало работы**
-Необходимо скомпилировать консольные приложения, после этого появятся исполняемые файлы ImageConverter, LibreOfficeConverter, MSOfficeConverter и PDFConverter.
+При использовании модуля LibreOffice на ОС Windows работа происходит при помощи приложения soffice.exe. Необходимо указать путь до этого приложения перед использованием библиотеки:\
+```csharp
+FileConverter.sofficePath = "Путь до soffice.exe";
+```
 
-## **Конвертация JPG в Png:**
+В случае, если путь не указан, но вы уже скомпилировали соответствующее консольное приложение, то путь до soffice.exe можно передать через параметр `--sofficePath` при вызове `LibreOfficeConverter.exe`:\
+```shell
+LibreOfficeConverter.exe —sofficePath "Путь до soffice.exe"
+```
+
+При условии, что LibreOffice уже установлен и команда soffice доступна в терминале, ничего дополнительно писать не следует.\
+
+Далее после настройки пути до soffice.exe необходимо скомпилировать консольные приложения, после этого появятся исполняемые файлы ImageConverter, LibreOfficeConverter, MSOfficeConverter и PDFConverter.
+
+## **Конвертация JPG в Png**
 У команды 2 аргумента: 
 
 - `jpgFileName` - путь до JPG файла.
@@ -231,7 +243,7 @@ public static string sofficePath = @"Путь до soffice.exe ";
 ImageConverter.exe --method JpgFileToPngFile --jpgFileName input.jpg --pngFileName output.png
 ```
 
-## **Конвертация Png в JPG:**
+## **Конвертация Png в JPG**
 У команды 2 аргумента: 
 
 - `pngFileName` - путь до Png файла.
@@ -245,8 +257,8 @@ ImageConverter.exe --method JpgFileToPngFile --jpgFileName input.jpg --pngFileNa
 ImageConverter.exe --method PngFileToJpgFile --pngFileName input.png --jpgFileName output.jpg
 ```
 
-## **Преобразование файлов при помощи модуля MSOffice:**
-### **Конвертация Docx в PDF:**
+## **Преобразование файлов при помощи модуля MSOffice**
+### **Конвертация Docx в PDF**
 У команды 2 аргумента: 
 
 - `wordFileName` - путь до Docx файла.
@@ -260,7 +272,7 @@ ImageConverter.exe --method PngFileToJpgFile --pngFileName input.png --jpgFileNa
 MSOfficeConverter.exe --method DocxFileToPdfFile --wordFileName input.docx --pdfFileName output.pdf
 ```
 
-### **Конвертация PDF в Docx:**
+### **Конвертация PDF в Docx**
 У команды 2 аргумента: 
 
 - `pdfFileName` - путь до PDF файла.
@@ -274,7 +286,7 @@ MSOfficeConverter.exe --method DocxFileToPdfFile --wordFileName input.docx --pdf
 MSOfficeConverter.exe --method PdfFileToDocxFile --pdfFileName input.pdf --wordFileName output.docx
 ```
 
-### **Конвертация PPTX в PDF:**
+### **Конвертация PPTX в PDF**
 У команды 2 аргумента: 
 
 - `pptxFileName` - путь до PPTX файла.
@@ -287,8 +299,8 @@ MSOfficeConverter.exe --method PdfFileToDocxFile --pdfFileName input.pdf --wordF
 MSOfficeConverter.exe --method PptxFileToPdfFile --pptxFileName input.pptx --pdfFileName output.pdf
 ```
 
-## **Преобразование файлов при помощи модуля LibreOffice:**
-### **Конвертация Docx в PDF:**
+## **Преобразование файлов при помощи модуля LibreOffice**
+### **Конвертация Docx в PDF**
 У команды 2 аргумента: 
 
 - `sofficePath` - путь до soffice.exe
@@ -303,7 +315,7 @@ MSOfficeConverter.exe --method PptxFileToPdfFile --pptxFileName input.pptx --pdf
 ```shell
 LibreOfficeConverter.exe --method DocxFileToPdfFile --sofficePath "C:\Program Files\LibreOffice\program" --wordFileName input.docx --pdfFileName output.pdf
 ```
-### **Конвертация PDF в Docx:**
+### **Конвертация PDF в Docx**
 У команды 2 аргумента: 
 
 - `sofficePath` - путь до soffice.exe
@@ -321,7 +333,7 @@ LibreOfficeConverter.exe --method DocxFileToPdfFile --sofficePath "C:\Program Fi
 LibreOfficeConverter.exe --method PdfFileToDocxFile --sofficePath "C:\Program Files\LibreOffice\program" --pdfFileName input.pdf --wordFileName output.docx
 ```
 
-### **Конвертация PPTX в PDF:**
+### **Конвертация PPTX в PDF**
 У команды 3 аргумента: 
 
 - `sofficePath` - путь до soffice.exe
@@ -336,7 +348,7 @@ LibreOfficeConverter.exe --method PdfFileToDocxFile --sofficePath "C:\Program Fi
 LibreOfficeConverter.exe --method PptxFileToPdfFile --sofficePath "C:\Program Files\LibreOffice\program" --pptxFileName input.pptx --pdfFileName output.pdf 
 ```
 
-## **Объединение PDF файлов:**
+## **Объединение PDF файлов**
 У команды 2 аргумента: 
 
 - `pdfFiles` - список PDF файлов.
@@ -350,7 +362,7 @@ LibreOfficeConverter.exe --method PptxFileToPdfFile --sofficePath "C:\Program Fi
 PDFConverter.exe --method MergePDFs --pdfFiles firstFile.pdf "path/to/secondFile.pdf" thirdFile.pdf --pdfOutput output.pdf
 ```
 
-## **Разделение PDF файла:**
+## **Разделение PDF файла**
 У команды 4 аргумента: 
 
 - `pdfInput` - PDF файл, который необходимо разделить.
@@ -366,7 +378,7 @@ PDFConverter.exe --method MergePDFs --pdfFiles firstFile.pdf "path/to/secondFile
 PDFConverter.exe --method SplitPDF --pdfInput input.pdf --pageSplitFrom 5 --pdf1Output firstPart.pdf --pdf2Output secondPart.pdf
 ```
 
-## **Конвертация JPG в PDF:**
+## **Конвертация JPG в PDF**
 У команды 2 аргумента: 
 
 - `jpgFiles` - список JPG файлов.
@@ -380,7 +392,7 @@ PDFConverter.exe --method SplitPDF --pdfInput input.pdf --pageSplitFrom 5 --pdf1
 PDFConverter.exe --method JpgFilesToPdfFile --jpgFiles firstFile.jpg "path/to/secondFile.jpg" thirdFile.jpg --pdfFileName output.pdf
 ```
 
-## **Конвертация PDF в JPG:**
+## **Конвертация PDF в JPG**
 У команды 3 аргумента: 
 
 - `pdfFileName` – имя PDF файла.
@@ -396,7 +408,7 @@ PDFConverter.exe --method PdfFileToJpgFiles --pdfFileName input.pdf --jpgFolderN
 ```
 
 # **Интеграция**
-## **Интеграция в проект на Node.js:**
+## **Интеграция в проект на Node.js**
 ``child_process.execFile()`` в Node.js - это функция, которая позволяет запускать внешние исполняемые файлы как дочерние процессы. Она является частью модуля `child_process`.
 
 Пример использования конвертации JPG в Png:
@@ -432,7 +444,7 @@ execFile(command, args, (error, stdout, stderr) => {
 
 После выполнения функции execFile запустится исполняемый файл, и в той же папке, что и исполняемый файл, появится файл `output.png`.
 
-## **Интеграция в проект на PHP:**
+## **Интеграция в проект на PHP**
 `exec()` - это функция в PHP, которая выполняет внешнюю программу. Она позволяет PHP-скриптам взаимодействовать с базовой системой и запускать внешние программы или команды.
 
 Пример использования конвертации JPG в Png:
@@ -444,7 +456,7 @@ execFile(command, args, (error, stdout, stderr) => {
 ```
 После выполнения функции exec запустится исполняемый файл, и в той же папке, что и исполняемый файл, появится файл `output.png`.
 
-## **Интеграция в проект на Python:**
+## **Интеграция в проект на Python**
 Функция `subprocess.run()` в Python позволяет запускать новые процессы, подключаться к их входным/выходным/ошибочным каналам и получать их возвращаемые значения.
 
 Пример использования конвертации JPG в Png:

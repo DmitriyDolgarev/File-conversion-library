@@ -9,6 +9,16 @@ namespace FileConverterLib.Tests
     [TestClass]
     public class UnitTestsPdf: AbstractUnitTests
     {
+        [ClassInitialize]
+        public static void BeforeTests_PDF(TestContext context)
+        {
+            var filesToCopy = new string[] { "test_pdf_2.pdf", "test_pdf_to_word.pdf", "test_split_pdf.pdf" };
+
+            foreach (var file in filesToCopy)
+                File.Copy(Path.Combine(pathTestfiles, file), Path.Combine(pathResult, file));
+
+        }
+
         #region Test_PdfToJpg
         [TestMethod]
         public void Test_PdfToJpgs_folder_2param()
@@ -53,7 +63,6 @@ namespace FileConverterLib.Tests
             string filename = "test_pdf_2";
 
             //копируем файл из папки testfiles в папку results, чтобы создать папку с изображениями в папке с исходным и с тем же названием
-            File.Copy(Path.Combine(pathTestfiles, $"{filename}.pdf"), Path.Combine(pathResult, $"{filename}.pdf"));
             PDFConverter.PdfFileToJpgFiles(Path.Combine(pathResult, filename), false);
             
             // открываем pdf
@@ -137,7 +146,6 @@ namespace FileConverterLib.Tests
             string filename = "test_pdf_to_word";
 
             //копируем файл из папки testfiles в папку results, чтобы создать папку с изображениями в папке с исходным и с тем же названием
-            File.Copy(Path.Combine(pathTestfiles, $"{filename}.pdf"), Path.Combine(pathResult, $"{filename}.pdf"));
             PDFConverter.PdfFileToJpgFiles(Path.Combine(pathResult, filename), true);
 
             //проверяем существует ли архив с таким названием
@@ -215,9 +223,6 @@ namespace FileConverterLib.Tests
                 }
                 Assert.AreEqual(document.PageCount, pageCount);
             }
-
-
-
         }
         #endregion
 
@@ -253,8 +258,6 @@ namespace FileConverterLib.Tests
         {
             string filename = "test_split_pdf";
             int splitFrom = 2;
-
-            File.Copy(Path.Combine(pathTestfiles, $"{filename}.pdf"), Path.Combine(pathResult, $"{filename}.pdf"));
 
             PDFConverter.SplitPDF(Path.Combine(pathResult, $"{filename}.pdf"), splitFrom);
 

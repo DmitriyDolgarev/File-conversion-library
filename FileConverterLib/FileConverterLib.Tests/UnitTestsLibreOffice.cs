@@ -5,6 +5,16 @@ namespace FileConverterLib.Tests
     [TestClass]
     public class UnitTestsLibreOffice : AbstractUnitTests
     {
+        [ClassInitialize]
+        public static void BeforeTests_MSOffice(TestContext context)
+        {
+            var filesToCopy = new string[] { "test_pdf_1.pdf", "test_word.docx", "test_powerpoint.pptx" };
+
+            foreach (var file in filesToCopy)
+                File.Copy(Path.Combine(pathTestfiles, file), Path.Combine(pathResult, file));
+
+        }
+
         #region Test_PdfToWord_LibreOffice
         [TestMethod]
         public void Test_PdfToWord_LibreOffice_2params()
@@ -20,7 +30,6 @@ namespace FileConverterLib.Tests
         public void Test_PdfToWord_LibreOffice_1param()
         {
             string filename = "test_pdf_1";
-            File.Copy(Path.Combine(pathTestfiles, $"{filename}.pdf"), Path.Combine(pathResult, $"{filename}.pdf"));
 
             LibreOfficeConverter.PdfFileToDocxFile(Path.Combine(pathResult, filename));
 
@@ -44,7 +53,6 @@ namespace FileConverterLib.Tests
         public void Test_WordToPdf_LibreOffice_1param()
         {
             string filename = "test_word";
-            File.Copy(Path.Combine(pathTestfiles, $"{filename}.docx"), Path.Combine(pathResult, $"{filename}.docx"));
 
             LibreOfficeConverter.DocxFileToPdfFile(Path.Combine(pathResult, filename));
 
@@ -68,7 +76,6 @@ namespace FileConverterLib.Tests
         public void Test_PptxToPdf_LibreOffice_1param()
         {
             string filename = "test_powerpoint";
-            File.Copy(Path.Combine(pathTestfiles, $"{filename}.pptx"), Path.Combine(pathResult, $"{filename}.pptx"));
 
             LibreOfficeConverter.PptxFileToPdfFile(Path.Combine(pathResult, filename));
 

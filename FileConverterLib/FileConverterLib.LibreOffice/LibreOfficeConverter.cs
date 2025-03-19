@@ -57,10 +57,17 @@ namespace FileConverterLib.LibreOffice
             var fileName = Path.GetFileNameWithoutExtension(pdfFileName);
             var tempFolder = Directory.CreateDirectory($"~{fileName}_temp").FullName;
 
-            var args = $"--headless --infilter=\"writer_pdf_import\" --convert-to docx \"{pdfFileName}\" --outdir \"{tempFolder}\"";
+            // pdf to doc
+            var args = $"--headless --infilter=\"writer_pdf_import\" --convert-to doc \"{pdfFileName}\" --outdir \"{tempFolder}\"";
+            var docFilePath = Path.ChangeExtension(Path.Combine(tempFolder, fileName), "doc");
             sofficeLaunch(args);
 
-            File.Move(Path.Combine(tempFolder, fileName + ".docx"), wordFileName);
+            // doc to docx
+            args = $"--headless --convert-to docx \"{docFilePath}\" --outdir \"{tempFolder}\"";
+            var docxFilePath = Path.ChangeExtension(docFilePath, "docx");
+            sofficeLaunch(args);
+
+            File.Move(docxFilePath, wordFileName, true);
             Directory.Delete(tempFolder, true);
         }
 

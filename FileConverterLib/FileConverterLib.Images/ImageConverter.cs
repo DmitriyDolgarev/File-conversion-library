@@ -1,5 +1,6 @@
 ﻿using SkiaSharp;
 using FileConverterLib.Utils;
+using System.Diagnostics;
 
 namespace FileConverterLib.Images
 {
@@ -22,10 +23,20 @@ namespace FileConverterLib.Images
                 }
             }
         }
-
         public static void JpgFileToPngFile(string jpgFileName)
         {
             JpgFileToPngFile(jpgFileName, FileConverterUtils.GetFileNameInSameFolder(jpgFileName));
+        }
+        public static byte[] JpgBytesToPngBytes(byte[] jpgBytes)
+        {
+            using (var img = SKImage.FromEncodedData(jpgBytes))
+            {
+                using (var data = img.Encode(SKEncodedImageFormat.Png, 100))
+                {
+                    var pngBytes = data.ToArray();
+                    return pngBytes;
+                }
+            }
         }
         #endregion
 
@@ -46,10 +57,20 @@ namespace FileConverterLib.Images
                 }
             }
         }
-
         public static void PngFileToJpgFile(string pngFileName)
         {
             PngFileToJpgFile(pngFileName, FileConverterUtils.GetFileNameInSameFolder(pngFileName));
+        }
+        public static byte[] PngBytesToJpgBytes(byte[] pngBytes)
+        {
+            using (var img = SKImage.FromEncodedData(pngBytes))
+            {
+                using (var data = img.Encode(SKEncodedImageFormat.Jpeg, 100))
+                {
+                    var jpgBytes = data.ToArray();
+                    return jpgBytes;
+                }
+            }
         }
         #endregion
     }

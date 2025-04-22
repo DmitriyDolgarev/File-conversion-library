@@ -1,10 +1,8 @@
 ﻿using SkiaSharp;
 using FileConverterLib.Utils;
-using System.Diagnostics;
-
 namespace FileConverterLib.Images
 {
-    public class ImageConverter
+    public partial class ImageConverter
     {
         #region JPG to PNG
         public static void JpgFileToPngFile(string jpgFileName, string pngFileName)

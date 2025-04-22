@@ -1,16 +1,14 @@
-﻿using System.Diagnostics;
-using System.IO.Compression;
+﻿using System.IO.Compression;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf.IO;
 using SkiaSharp;
 using PDFtoImage;
 using FileConverterLib.Utils;
-using System.Reflection.Metadata;
 
 namespace FileConverterLib.PDF
 {
-    public class PdfConverter
+    public partial class PdfConverter
     {
         private static int PointsToPixels(double points)
         {
@@ -192,15 +190,17 @@ namespace FileConverterLib.PDF
 
             var jpgBytesList = PdfBytesToJpgBytes(pdfByteArray);
 
-            for(int i = 0; i < jpgBytesList.Count; i++)
+            int page = 1;
+            foreach(var jpgBytes in jpgBytesList)
             {
-                var jpgBytes = jpgBytesList[i];
-                var fileName = Path.Combine(jpgFolderName, $"page_{i + 1}.jpg");
+                var fileName = Path.Combine(jpgFolderName, $"page_{page}.jpg");
 
                 using (var stream = File.OpenWrite(fileName))
                 {
                     stream.Write(jpgBytes);
                 }
+
+                page++;
             }
         }
         private static void PdfFileToJpgFilesFolder(string pdfFileName)
@@ -226,7 +226,7 @@ namespace FileConverterLib.PDF
             PdfFileToJpgFilesZip(pdfFileName, FileConverterUtils.GetFileNameInSameFolder(pdfFileName));
         }
         
-        public static List<byte[]> PdfBytesToJpgBytes(byte[] pdfBytes)
+        public static IEnumerable<byte[]> PdfBytesToJpgBytes(byte[] pdfBytes)
         {
             var jpgBytes = new List<byte[]>();
 
@@ -264,15 +264,16 @@ namespace FileConverterLib.PDF
             {
                 using (var archive = new ZipArchive(stream, ZipArchiveMode.Create))
                 {
-                    for(int i = 0; i < jpgBytesList.Count; i++)
+                    int page = 1;
+                    foreach(var jpgBytes in jpgBytesList)
                     {
-                        var jpgBytes = jpgBytesList[i];
-                        var archiveEntry = archive.CreateEntry($"page_{i+1}.jpg");
+                        var archiveEntry = archive.CreateEntry($"page_{page}.jpg");
                         
                         using(var zipStream = archiveEntry.Open())
                         {
                             zipStream.Write(jpgBytes);
                         }
+                        page++;
                     }
                 }
 

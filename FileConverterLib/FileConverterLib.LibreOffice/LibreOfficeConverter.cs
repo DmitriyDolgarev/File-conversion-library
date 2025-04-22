@@ -3,7 +3,7 @@ using FileConverterLib.Utils;
 
 namespace FileConverterLib.LibreOffice
 {
-    public class LibreOfficeConverter
+    public partial class LibreOfficeConverter
     {
         // Windows: обычно @"C:\Program Files\LibreOffice\program"
         // Linux: пустая строка @""

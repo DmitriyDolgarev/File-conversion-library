@@ -6,7 +6,7 @@ using FileConverterLib.Utils;
 
 namespace FileConverterLib.MSOffice
 {
-    public class MSOfficeConverter
+    public partial class MSOfficeConverter
     {
         private static void ConvertWord(string input, string output, WdSaveFormat outputType)
         {

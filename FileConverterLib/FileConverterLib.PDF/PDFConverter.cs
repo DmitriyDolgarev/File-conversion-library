@@ -6,10 +6,11 @@ using PdfSharp.Pdf.IO;
 using SkiaSharp;
 using PDFtoImage;
 using FileConverterLib.Utils;
+using System.Reflection.Metadata;
 
 namespace FileConverterLib.PDF
 {
-    public class PDFConverter
+    public class PdfConverter
     {
         private static int PointsToPixels(double points)
         {
@@ -17,32 +18,65 @@ namespace FileConverterLib.PDF
         }
 
         #region Merge PDFs
-        public static void MergePDFs(string[] pdfFiles, string pdfOutput)
+        public static void MergePdfFiles(string[] pdfFiles, string pdfOutput)
         {
             pdfOutput = FileConverterUtils.GetCorrectedPath(pdfOutput, "pdf");
             for (int i = 0; i < pdfFiles.Length; i++)
                 pdfFiles[i] = FileConverterUtils.GetCorrectedPath(pdfFiles[i], "pdf");
 
-            using (var outputDocument = new PdfDocument())
+            var pdfDocuments = new List<PdfDocument>();
+            foreach(var pdf in pdfFiles)
             {
-                foreach (var pdf in pdfFiles)
-                {
-                    using (var inputDocument = PdfReader.Open(pdf, PdfDocumentOpenMode.Import))
-                    {
-                        for (int i = 0; i < inputDocument.PageCount; i++)
-                        {
-                            PdfPage page = inputDocument.Pages[i];
-                            outputDocument.AddPage(page);
-                        }
-                    }
-                }
-                outputDocument.Save(pdfOutput);
+                var document = PdfReader.Open(pdf, PdfDocumentOpenMode.Import);
+                pdfDocuments.Add(document);
             }
+
+            using var outputDocument = MergePdfDocuments(pdfDocuments);
+            outputDocument.Save(pdfOutput);
+
+            pdfDocuments.ForEach(doc => doc.Dispose());
+        }
+        public static byte[] MergePdfBytes(IEnumerable<byte[]> pdfFiles)
+        {
+            var pdfDocuments = new List<PdfDocument>();
+            foreach(var pdf in pdfFiles)
+            {
+                using var pdfStream = new MemoryStream(pdf);
+                var document = PdfReader.Open(pdfStream, PdfDocumentOpenMode.Import);
+                pdfDocuments.Add(document);
+            }
+
+            using var outputDocument = MergePdfDocuments(pdfDocuments);
+
+            using (var stream = new MemoryStream())
+            {
+                outputDocument.Save(stream);
+
+                pdfDocuments.ForEach(doc => doc.Dispose());
+                outputDocument.Dispose();
+
+                return stream.ToArray();
+            }
+        }
+        private static PdfDocument MergePdfDocuments(IEnumerable<PdfDocument> pdfDocuments)
+        {
+            var outputDocument = new PdfDocument();
+
+            foreach (var pdf in pdfDocuments)
+            {
+                for (int i = 0; i < pdf.PageCount; i++)
+                {
+                    PdfPage page = pdf.Pages[i];
+                    outputDocument.AddPage(page);
+                }
+            }
+
+            return outputDocument;
         }
         #endregion
 
         #region Split PDF
-        public static void SplitPDF(string pdfInput, int pageSplitFrom, string pdf1Output, string pdf2Output)
+        public static void SplitPdfFile(string pdfInput, int pageSplitFrom, string pdf1Output, string pdf2Output)
         {
             pdfInput = FileConverterUtils.GetCorrectedPath(pdfInput, "pdf");
             pdf1Output = FileConverterUtils.GetCorrectedPath(pdf1Output, "pdf");
@@ -70,13 +104,12 @@ namespace FileConverterLib.PDF
                 outputDocument2.Dispose();
             }
         }
-
-        public static void SplitPDF(string pdfInput, int pageSplitFrom)
+        public static void SplitPdfFile(string pdfInput, int pageSplitFrom)
         {
             var pdf1 = FileConverterUtils.GetFileNameInSameFolder(pdfInput) + "_splitted1.pdf";
             var pdf2 = FileConverterUtils.GetFileNameInSameFolder(pdfInput) + "_splitted2.pdf";
 
-            SplitPDF(pdfInput, pageSplitFrom, pdf1, pdf2);
+            SplitPdfFile(pdfInput, pageSplitFrom, pdf1, pdf2);
         }
         #endregion
 
@@ -87,23 +120,48 @@ namespace FileConverterLib.PDF
             for (int i = 0; i < jpgFiles.Length; i++)
                 jpgFiles[i] = FileConverterUtils.GetCorrectedPath(jpgFiles[i], "jpg");
 
-            using (PdfDocument document = new PdfDocument())
+            var jpgBytes = new List<byte[]>();
+
+            foreach(var jpgFile in jpgFiles)
             {
-                foreach (var jpgFile in jpgFiles)
+                jpgBytes.Add(File.ReadAllBytes(jpgFile));
+            }
+
+            using var pdfDocument = JpgToPdf(jpgBytes);
+            pdfDocument.Save(pdfFileName);
+        }
+        public static byte[] JpgBytesToPdfBytes(IEnumerable<byte[]> jpgBytes)
+        {
+            using var pdfDocument = JpgToPdf(jpgBytes);
+
+            using (var stream = new MemoryStream())
+            {
+                pdfDocument.Save(stream);
+                return stream.ToArray();
+            }
+        }
+        private static PdfDocument JpgToPdf(IEnumerable<byte[]> jpgBytes)
+        {
+            var pdfDocument = new PdfDocument();
+
+            foreach (var jpg in jpgBytes)
+            {
+                using (var stream = new MemoryStream())
                 {
-                    PdfPage page = document.AddPage();
+                    stream.Write(jpg);
+                    PdfPage page = pdfDocument.AddPage();
 
                     XGraphics gfx = XGraphics.FromPdfPage(page);
-                    XImage image = XImage.FromFile(jpgFile);
+                    XImage image = XImage.FromStream(stream);
 
                     page.Height = XUnit.FromPoint(image.PointHeight);
                     page.Width = XUnit.FromPoint(image.PointWidth);
 
                     gfx.DrawImage(image, 0, 0);
                 }
-
-                document.Save(pdfFileName);
             }
+
+            return pdfDocument;
         }
         #endregion
 
@@ -130,84 +188,96 @@ namespace FileConverterLib.PDF
             if (!Directory.Exists(jpgFolderName))
                 Directory.CreateDirectory(jpgFolderName);
 
-            var pdfByteArray = Convert.ToBase64String(File.ReadAllBytes(pdfFileName));
-            var pageCount = Conversion.GetPageCount(pdfByteArray);
+            var pdfByteArray = File.ReadAllBytes(pdfFileName);
+
+            var jpgBytesList = PdfBytesToJpgBytes(pdfByteArray);
+
+            for(int i = 0; i < jpgBytesList.Count; i++)
+            {
+                var jpgBytes = jpgBytesList[i];
+                var fileName = Path.Combine(jpgFolderName, $"page_{i + 1}.jpg");
+
+                using (var stream = File.OpenWrite(fileName))
+                {
+                    stream.Write(jpgBytes);
+                }
+            }
+        }
+        private static void PdfFileToJpgFilesFolder(string pdfFileName)
+        {
+            PdfFileToJpgFiles(pdfFileName, FileConverterUtils.GetFileNameInSameFolder(pdfFileName));
+        }
+        private static void PdfFileToJpgFilesZip(string pdfFileName, string jpgFolderName)
+        {
+            pdfFileName = FileConverterUtils.GetCorrectedPath(pdfFileName, "pdf");
+            jpgFolderName = FileConverterUtils.GetCorrectedPath(jpgFolderName, "zip");
+
+            var pdfByteArray = File.ReadAllBytes(pdfFileName);
+
+            var zipBytes = PdfBytesToJpgBytesZip(pdfByteArray);
+
+            using(var fs = new FileStream(jpgFolderName, FileMode.OpenOrCreate))
+            {
+                fs.Write(zipBytes);
+            }
+        }
+        private static void PdfFileToJpgFilesZip(string pdfFileName)
+        {
+            PdfFileToJpgFilesZip(pdfFileName, FileConverterUtils.GetFileNameInSameFolder(pdfFileName));
+        }
+        
+        public static List<byte[]> PdfBytesToJpgBytes(byte[] pdfBytes)
+        {
+            var jpgBytes = new List<byte[]>();
+
+            var pageCount = Conversion.GetPageCount(pdfBytes);
 
             for (int i = 0; i < pageCount; i++)
             {
-                var fileName = Path.Combine(jpgFolderName, $"page_{i + 1}.jpg");
-
-                var pageSize = Conversion.GetPageSize(pdfByteArray, i);
+                var pageSize = Conversion.GetPageSize(pdfBytes, i);
                 var options = new RenderOptions(
                             Dpi: 300,
                             Width: PointsToPixels(pageSize.Width),
                             Height: PointsToPixels(pageSize.Height)
                 );
 
-                using (var skImage = Conversion.ToImage(pdfByteArray, i, options: options))
+                using (var skImage = Conversion.ToImage(pdfBytes, i, options: options))
                 {
                     using (var data = skImage.Encode(SKEncodedImageFormat.Jpeg, 100))
                     {
-                        using (var stream = File.OpenWrite(fileName))
+                        using (var stream = new MemoryStream())
                         {
                             data.SaveTo(stream);
+                            jpgBytes.Add(stream.ToArray());
                         }
                     }
                 }
             }
+
+            return jpgBytes;
         }
-
-        private static void PdfFileToJpgFilesFolder(string pdfFileName)
+        public static byte[] PdfBytesToJpgBytesZip(byte[] pdfBytes)
         {
-            PdfFileToJpgFiles(pdfFileName, FileConverterUtils.GetFileNameInSameFolder(pdfFileName));
-        }
+            var jpgBytesList = PdfBytesToJpgBytes(pdfBytes);
 
-        private static void PdfFileToJpgFilesZip(string pdfFileName, string jpgFolderName)
-        {
-            pdfFileName = FileConverterUtils.GetCorrectedPath(pdfFileName, "pdf");
-            jpgFolderName = FileConverterUtils.GetCorrectedPath(jpgFolderName, "zip");
-
-            using (var fs = new FileStream(jpgFolderName, FileMode.OpenOrCreate))
+            using(var stream = new MemoryStream())
             {
-                using (var archive = new ZipArchive(fs, ZipArchiveMode.Create, true))
+                using (var archive = new ZipArchive(stream, ZipArchiveMode.Create))
                 {
-                    var pdfByteArray = Convert.ToBase64String(File.ReadAllBytes(pdfFileName));
-                    var pageCount = Conversion.GetPageCount(pdfByteArray);
-
-                    for (int i = 0; i < pageCount; i++)
+                    for(int i = 0; i < jpgBytesList.Count; i++)
                     {
-                        var fileName = $"page_{i + 1}.jpg";
-
-                        var pageSize = Conversion.GetPageSize(pdfByteArray, i);
-                        var options = new RenderOptions(
-                                    Dpi: 300,
-                                    Width: PointsToPixels(pageSize.Width),
-                                    Height: PointsToPixels(pageSize.Height)
-                        );
-
-                        using (var skImage = Conversion.ToImage(pdfByteArray, i, options: options))
+                        var jpgBytes = jpgBytesList[i];
+                        var archiveEntry = archive.CreateEntry($"page_{i+1}.jpg");
+                        
+                        using(var zipStream = archiveEntry.Open())
                         {
-                            using (var data = skImage.Encode(SKEncodedImageFormat.Jpeg, 100))
-                            {
-                                var archiveEntry = archive.CreateEntry(fileName);
-                                using (var zipStream = archiveEntry.Open())
-                                {
-                                    using (var ms = new MemoryStream())
-                                    {
-                                        data.SaveTo(ms);
-                                        zipStream.Write(ms.ToArray());
-                                    }
-                                }
-                            }
+                            zipStream.Write(jpgBytes);
                         }
                     }
                 }
-            }
-        }
 
-        private static void PdfFileToJpgFilesZip(string pdfFileName)
-        {
-            PdfFileToJpgFilesZip(pdfFileName, FileConverterUtils.GetFileNameInSameFolder(pdfFileName));
+                return stream.ToArray();
+            }
         }
         #endregion
     }

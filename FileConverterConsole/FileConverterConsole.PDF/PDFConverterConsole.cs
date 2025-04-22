@@ -15,19 +15,19 @@ namespace FileConverterConsole.PDF
                 case "MergePDFs":
 
                     string[] pdfFiles = cmdOptions.pdfFiles.ToArray();
-                    PDFConverter.MergePDFs(pdfFiles, cmdOptions.pdfOutput);
+                    PdfConverter.MergePdfFiles(pdfFiles, cmdOptions.pdfOutput);
                     break;
 
                 case "SplitPDF":
                     if (cmdOptions.pdf1Output == null && cmdOptions.pdf2Output == null)
-                        PDFConverter.SplitPDF(cmdOptions.pdfInput, cmdOptions.pageSplitFrom.Value);
+                        PdfConverter.SplitPdfFile(cmdOptions.pdfInput, cmdOptions.pageSplitFrom.Value);
                     else
-                        PDFConverter.SplitPDF(cmdOptions.pdfInput, cmdOptions.pageSplitFrom.Value, cmdOptions.pdf1Output, cmdOptions.pdf2Output);
+                        PdfConverter.SplitPdfFile(cmdOptions.pdfInput, cmdOptions.pageSplitFrom.Value, cmdOptions.pdf1Output, cmdOptions.pdf2Output);
                     break;
 
                 case "JpgFilesToPdfFile":
                     string[] jpgFiles = cmdOptions.jpgFiles.ToArray();
-                    PDFConverter.JpgFilesToPdfFile(jpgFiles, cmdOptions.pdfFileName);
+                    PdfConverter.JpgFilesToPdfFile(jpgFiles, cmdOptions.pdfFileName);
                     break;
 
                 case "PdfFileToJpgFiles":
@@ -38,9 +38,9 @@ namespace FileConverterConsole.PDF
                         zip = cmdOptions.zip.Value;
 
                     if (cmdOptions.jpgFolderName == null)
-                        PDFConverter.PdfFileToJpgFiles(cmdOptions.pdfFileName, zip);
+                        PdfConverter.PdfFileToJpgFiles(cmdOptions.pdfFileName, zip);
                     else
-                        PDFConverter.PdfFileToJpgFiles(cmdOptions.pdfInput, cmdOptions.jpgFolderName, zip);
+                        PdfConverter.PdfFileToJpgFiles(cmdOptions.pdfInput, cmdOptions.jpgFolderName, zip);
                     break;
             }
         }

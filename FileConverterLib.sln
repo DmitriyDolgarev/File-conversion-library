@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterConsole.LibreO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileConverterLib.Tests", "FileConverterLib\FileConverterLib.Tests\FileConverterLib.Tests.csproj", "{D1FDCBE3-02C7-451A-B071-05DF4DFD6095}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{4A23020C-3FE2-4619-A86E-DC62491C5EA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{D1FDCBE3-02C7-451A-B071-05DF4DFD6095}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1FDCBE3-02C7-451A-B071-05DF4DFD6095}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1FDCBE3-02C7-451A-B071-05DF4DFD6095}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A23020C-3FE2-4619-A86E-DC62491C5EA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A23020C-3FE2-4619-A86E-DC62491C5EA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A23020C-3FE2-4619-A86E-DC62491C5EA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A23020C-3FE2-4619-A86E-DC62491C5EA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{416D8592-8FCD-4D72-BF92-F45B5E81742B} = {6C07D326-231E-4DA4-AD7E-0797156B3195}
 		{F77F8DAE-8613-4CC0-9B53-6CA3A4157EFF} = {6C07D326-231E-4DA4-AD7E-0797156B3195}
 		{D1FDCBE3-02C7-451A-B071-05DF4DFD6095} = {CDF08273-5EB4-44B6-BCD8-7E16C303A5B2}
+		{4A23020C-3FE2-4619-A86E-DC62491C5EA8} = {CDF08273-5EB4-44B6-BCD8-7E16C303A5B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62BE5EA0-6FB3-4C54-A423-296E6C611BFC}

@@ -24,7 +24,7 @@ namespace FileConverterLib.Tests
         public void Test_PdfToJpgs_folder_2param()
         {
             string filename = "test_pdf_1";
-            PDFConverter.PdfFileToJpgFiles(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename), false);
+            PdfConverter.PdfFileToJpgFiles(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename), false);
 
             //открываем pdf 
             using (PdfDocument document = PdfReader.Open(Path.Combine(pathTestfiles, $"{filename}.pdf")))
@@ -63,7 +63,7 @@ namespace FileConverterLib.Tests
             string filename = "test_pdf_2";
 
             //копируем файл из папки testfiles в папку results, чтобы создать папку с изображениями в папке с исходным и с тем же названием
-            PDFConverter.PdfFileToJpgFiles(Path.Combine(pathResult, filename), false);
+            PdfConverter.PdfFileToJpgFiles(Path.Combine(pathResult, filename), false);
             
             // открываем pdf
             using (PdfDocument document = PdfReader.Open(Path.Combine(pathResult, $"{filename}.pdf")))
@@ -100,7 +100,7 @@ namespace FileConverterLib.Tests
         public void Test_PdfToJpgs_zip_2param()
         {
             string filename = "test_pdf_1";
-            PDFConverter.PdfFileToJpgFiles(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename), true);
+            PdfConverter.PdfFileToJpgFiles(Path.Combine(pathTestfiles, filename), Path.Combine(pathResult, filename), true);
 
             //проверяем существует ли архив с таким названием
             Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.zip")));
@@ -146,7 +146,7 @@ namespace FileConverterLib.Tests
             string filename = "test_pdf_to_word";
 
             //копируем файл из папки testfiles в папку results, чтобы создать папку с изображениями в папке с исходным и с тем же названием
-            PDFConverter.PdfFileToJpgFiles(Path.Combine(pathResult, filename), true);
+            PdfConverter.PdfFileToJpgFiles(Path.Combine(pathResult, filename), true);
 
             //проверяем существует ли архив с таким названием
             Assert.IsTrue(File.Exists(Path.Combine(pathResult, $"{filename}.zip")));
@@ -193,7 +193,7 @@ namespace FileConverterLib.Tests
         {
             string filename = "test_jpgs_to_pdf";
             string[] files = Directory.GetFiles(Path.Combine(pathTestfiles, filename));
-            PDFConverter.JpgFilesToPdfFile(files, Path.Combine(pathResult,$"{filename}.pdf"));
+            PdfConverter.JpgFilesToPdfFile(files, Path.Combine(pathResult,$"{filename}.pdf"));
 
             using (PdfDocument document = PdfReader.Open(Path.Combine(pathResult, $"{filename}.pdf")))
             {
@@ -209,7 +209,7 @@ namespace FileConverterLib.Tests
             string filename = "test_merge_pdf";
             string[] files = Directory.GetFiles(Path.Combine(pathTestfiles, filename));
 
-            PDFConverter.MergePDFs(files, Path.Combine(pathResult, $"{filename}.pdf"));
+            PdfConverter.MergePdfFiles(files, Path.Combine(pathResult, $"{filename}.pdf"));
 
             using (PdfDocument document = PdfReader.Open(Path.Combine(pathResult, $"{filename}.pdf")))
             {
@@ -232,7 +232,7 @@ namespace FileConverterLib.Tests
             string filename = "test_split_pdf";
             int splitFrom = 2;
 
-            PDFConverter.SplitPDF(Path.Combine(pathTestfiles, $"{filename}.pdf"), splitFrom, 
+            PdfConverter.SplitPdfFile(Path.Combine(pathTestfiles, $"{filename}.pdf"), splitFrom, 
                 Path.Combine(pathResult, $"{filename}_split_1.pdf"), 
                 Path.Combine(pathResult, $"{filename}_split_2.pdf")
             );
@@ -259,7 +259,7 @@ namespace FileConverterLib.Tests
             string filename = "test_split_pdf";
             int splitFrom = 2;
 
-            PDFConverter.SplitPDF(Path.Combine(pathResult, $"{filename}.pdf"), splitFrom);
+            PdfConverter.SplitPdfFile(Path.Combine(pathResult, $"{filename}.pdf"), splitFrom);
 
             using (PdfDocument document = PdfReader.Open(Path.Combine(pathResult, $"{filename}.pdf")))
             {

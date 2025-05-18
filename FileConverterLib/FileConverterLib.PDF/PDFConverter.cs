@@ -5,6 +5,7 @@ using PdfSharp.Pdf.IO;
 using SkiaSharp;
 using PDFtoImage;
 using FileConverterLib.Utils;
+using System.Text.RegularExpressions;
 
 namespace FileConverterLib.PDF
 {
@@ -14,6 +15,47 @@ namespace FileConverterLib.PDF
         {
             return (int)Math.Round(points * 1.333f);
         }
+        private static IEnumerable<int> GetPagesList(string pagesStr)
+        {
+
+            var pages = new List<int>();
+            var correctNumber = @"^\d+$";
+
+            var splitPagesStr = pagesStr.Split([' ', ',', ';']);
+
+            foreach (var page in splitPagesStr)
+            {
+                var p = page.Split('-');
+                Console.WriteLine(p[0]);
+                if (p.Length > 1) // Range
+                {
+                    if (!(Regex.IsMatch(p[0], correctNumber) && Regex.IsMatch(p[1], correctNumber)))
+                        throw new ArgumentException("Invalid number format");
+
+                    var start = int.Parse(p[0]);
+                    var end = int.Parse(p[1]);
+
+                    if (start < end)
+                    {
+                        for (var i = start; i <= end; i++)
+                            pages.Add(i);
+                    }
+                    else
+                    {
+                        for (var i = start; i >= end; i--)
+                            pages.Add(i);
+                    }
+                }
+                else // Single page
+                {
+                    if (Regex.IsMatch(p[0], correctNumber))
+                        pages.Add(int.Parse(p[0]));
+                }
+            }
+
+            return pages;
+        }
+
 
         #region Merge PDFs
         public static void MergePdfFiles(string[] pdfFiles, string pdfOutput)
@@ -74,40 +116,47 @@ namespace FileConverterLib.PDF
         #endregion
 
         #region Split PDF
-        public static void SplitPdfFile(string pdfInput, int pageSplitFrom, string pdf1Output, string pdf2Output)
+
+        public static void SplitPdfFile(string pdfInput, string splitString, string pdfOutput)
         {
             pdfInput = FileConverterUtils.GetCorrectedPath(pdfInput, "pdf");
-            pdf1Output = FileConverterUtils.GetCorrectedPath(pdf1Output, "pdf");
-            pdf2Output = FileConverterUtils.GetCorrectedPath(pdf2Output, "pdf");
+            pdfOutput = FileConverterUtils.GetCorrectedPath(pdfOutput, "pdf");
 
             using (var inputDocument = PdfReader.Open(pdfInput, PdfDocumentOpenMode.Import))
             {
-                var outputDocument1 = new PdfDocument();
-                var outputDocument2 = new PdfDocument();
-
-                for (int i = 0; i < inputDocument.PageCount; i++)
+                using(var outputDocument = SplitPdf(inputDocument, splitString))
                 {
-                    var page = inputDocument.Pages[i];
-
-                    if (i < pageSplitFrom - 1)
-                        outputDocument1.AddPage(page);
-                    else
-                        outputDocument2.AddPage(page);
+                    outputDocument.Save(pdfOutput);
                 }
-
-                outputDocument1.Save(pdf1Output);
-                outputDocument2.Save(pdf2Output);
-
-                outputDocument1.Dispose();
-                outputDocument2.Dispose();
             }
         }
-        public static void SplitPdfFile(string pdfInput, int pageSplitFrom)
+        public static void SplitPdfFile(string pdfInput, string splitString)
         {
-            var pdf1 = FileConverterUtils.GetFileNameInSameFolder(pdfInput) + "_splitted1.pdf";
-            var pdf2 = FileConverterUtils.GetFileNameInSameFolder(pdfInput) + "_splitted2.pdf";
+            var pdf = FileConverterUtils.GetFileNameInSameFolder(pdfInput) + "_splitted.pdf";
+            SplitPdfFile(pdfInput, splitString);
+        }
+        public static byte[] SplitPdfBytes(byte[] pdfBytes, string splitString)
+        {
+            using var pdfStream = new MemoryStream(pdfBytes);
+            using var inputDocument = PdfReader.Open(pdfStream, PdfDocumentOpenMode.Import);
+            using var outputDocument = SplitPdf(inputDocument, splitString);
 
-            SplitPdfFile(pdfInput, pageSplitFrom, pdf1, pdf2);
+            using var stream = new MemoryStream();
+            outputDocument.Save(stream);
+            return stream.ToArray();
+        }
+        private static PdfDocument SplitPdf(PdfDocument inputDocument, string splitString)
+        {
+            var outputDocument = new PdfDocument();
+            var pages = GetPagesList(splitString);
+
+            foreach (var pageNum in pages)
+            {
+                var page = inputDocument.Pages[pageNum - 1];
+                outputDocument.AddPage(page);
+            }
+
+            return outputDocument;
         }
         #endregion
 

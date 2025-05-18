@@ -19,10 +19,10 @@ namespace FileConverterConsole.PDF
                     break;
 
                 case "SplitPDF":
-                    if (cmdOptions.pdf1Output == null && cmdOptions.pdf2Output == null)
-                        PdfConverter.SplitPdfFile(cmdOptions.pdfInput, cmdOptions.pageSplitFrom.Value);
+                    if (cmdOptions.pdfOutput == null)
+                        PdfConverter.SplitPdfFile(cmdOptions.pdfInput, cmdOptions.splitString);
                     else
-                        PdfConverter.SplitPdfFile(cmdOptions.pdfInput, cmdOptions.pageSplitFrom.Value, cmdOptions.pdf1Output, cmdOptions.pdf2Output);
+                        PdfConverter.SplitPdfFile(cmdOptions.pdfInput, cmdOptions.splitString, cmdOptions.pdfOutput);
                     break;
 
                 case "JpgFilesToPdfFile":

@@ -19,14 +19,8 @@ namespace FileConverterConsole.PDF
         [Option(longName: "pdfInput", Required = false, Default = null)]
         public string? pdfInput { get; set; }
 
-        [Option(longName: "pageSplitFrom", Required = false, Default = null)]
-        public int? pageSplitFrom { get; set; }
-
-        [Option(longName: "pdf1Output", Required = false, Default = null)]
-        public string? pdf1Output { get; set; }
-
-        [Option(longName: "pdf2Output", Required = false, Default = null)]
-        public string? pdf2Output { get; set; }
+        [Option(longName: "splitString", Required = false, Default = null)]
+        public string? splitString { get; set; }
 
         // JpgFilesToPdfFile
         [Option(longName: "jpgFiles", Required = false, Default = null)]

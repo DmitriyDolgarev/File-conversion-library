@@ -1,4 +1,7 @@
-﻿namespace FileConverterLib.PDF
+﻿using FileConverterLib.Utils;
+using PdfSharp.Pdf.IO;
+
+namespace FileConverterLib.PDF
 {
     public partial class PdfConverter
     {
@@ -8,8 +11,9 @@
         #endregion
 
         #region Split PDF
-        public static async Task SplitPdfFileAsync(string pdfInput, int pageSplitFrom, string pdf1Output, string pdf2Output) => await Task.Run(() => SplitPdfFile(pdfInput, pageSplitFrom, pdf1Output, pdf2Output));
-        public static async Task SplitPdfFileAsync(string pdfInput, int pageSplitFrom) => await Task.Run(() => SplitPdfFile(pdfInput, pageSplitFrom));
+        public static async Task SplitPdfFileAsync(string pdfInput, string splitString, string pdfOutput) => await Task.Run(() => SplitPdfFileAsync(pdfInput, splitString, pdfOutput));
+        public static async Task SplitPdfFileAsync(string pdfInput, string splitString) => await Task.Run(() => SplitPdfFile(pdfInput, splitString));
+        public static async Task<byte[]> SplitPdfBytesAsync(byte[] pdfBytes, string splitString) => await Task.Run(() => SplitPdfBytes(pdfBytes, splitString));
         #endregion
 
         #region JPG to PDF

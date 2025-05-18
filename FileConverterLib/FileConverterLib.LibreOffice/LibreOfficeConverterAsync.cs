@@ -1,4 +1,4 @@
-﻿namespace FileConverterLib.LibreOffice
+﻿ namespace FileConverterLib.LibreOffice
 {
     public partial class LibreOfficeConverter
     {

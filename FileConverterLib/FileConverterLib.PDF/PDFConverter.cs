@@ -133,7 +133,7 @@ namespace FileConverterLib.PDF
         public static void SplitPdfFile(string pdfInput, string splitString)
         {
             var pdf = FileConverterUtils.GetFileNameInSameFolder(pdfInput) + "_splitted.pdf";
-            SplitPdfFile(pdfInput, splitString);
+            SplitPdfFile(pdfInput, splitString, pdf);
         }
         public static byte[] SplitPdfBytes(byte[] pdfBytes, string splitString)
         {

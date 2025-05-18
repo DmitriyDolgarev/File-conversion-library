@@ -12,7 +12,7 @@ namespace FileConverterLib.Tests
         [ClassInitialize]
         public static void BeforeTests_PDF(TestContext context)
         {
-            var filesToCopy = new string[] { "test_pdf_2.pdf", "test_pdf_to_word.pdf", "test_split_pdf.pdf" };
+            var filesToCopy = new string[] { "test_pdf_2.pdf", "test_pdf_to_word.pdf", "test_split_pdf.pdf", "test_split.pdf" };
 
             foreach (var file in filesToCopy)
                 File.Copy(Path.Combine(pathTestfiles, file), Path.Combine(pathResult, file));
@@ -228,27 +228,19 @@ namespace FileConverterLib.Tests
 
         #region Test_SptitPdf
         [TestMethod]
-        public void TestSplitPdf_4params(){
-            string filename = "test_split_pdf";
-            int splitFrom = 2;
+        public void TestSplitPdf_3params(){
+            string filename = "test_split";
+            string splitPages = "1-3;6,8";
 
-            PdfConverter.SplitPdfFile(Path.Combine(pathTestfiles, $"{filename}.pdf"), splitFrom, 
-                Path.Combine(pathResult, $"{filename}_split_1.pdf"), 
-                Path.Combine(pathResult, $"{filename}_split_2.pdf")
+            PdfConverter.SplitPdfFile(Path.Combine(pathTestfiles, $"{filename}.pdf"), splitPages, 
+                Path.Combine(pathResult, $"{filename}_spltd.pdf")
             );
 
-            using (PdfDocument document = PdfReader.Open(Path.Combine(pathTestfiles, $"{filename}.pdf")))
+            using (PdfDocument doc = PdfReader.Open(Path.Combine(pathResult, $"{filename}_spltd.pdf")))
             {
-                using (PdfDocument doc1 = PdfReader.Open(Path.Combine(pathResult, $"{filename}_split_1.pdf")))
-                {
-                    Assert.AreEqual(document.PageCount - splitFrom, doc1.PageCount);
-                }
-
-                using (PdfDocument doc2 = PdfReader.Open(Path.Combine(pathResult, $"{filename}_split_2.pdf")))
-                {
-                    Assert.AreEqual((document.PageCount - splitFrom) + 1, doc2.PageCount) ;
-                }
+                Assert.AreEqual(5, doc.PageCount);
             }
+
 
 
         }
@@ -256,23 +248,17 @@ namespace FileConverterLib.Tests
         [TestMethod]
         public void TestSplitPdf_2params()
         {
-            string filename = "test_split_pdf";
-            int splitFrom = 2;
+            string filename = "test_split";
+            string splitPages = "3-1,6;8";
 
-            PdfConverter.SplitPdfFile(Path.Combine(pathResult, $"{filename}.pdf"), splitFrom);
+            PdfConverter.SplitPdfFile(Path.Combine(pathResult, $"{filename}.pdf"), splitPages);
 
-            using (PdfDocument document = PdfReader.Open(Path.Combine(pathResult, $"{filename}.pdf")))
+            using (PdfDocument doc = PdfReader.Open(Path.Combine(pathResult, $"{filename}_splitted.pdf")))
             {
-                using (PdfDocument doc1 = PdfReader.Open(Path.Combine(pathResult, $"{filename}_splitted1.pdf")))
-                {
-                    Assert.AreEqual(document.PageCount - splitFrom, doc1.PageCount);
-                }
-
-                using (PdfDocument doc2 = PdfReader.Open(Path.Combine(pathResult, $"{filename}_splitted2.pdf")))
-                {
-                    Assert.AreEqual((document.PageCount - splitFrom) + 1, doc2.PageCount);
-                }
+                Assert.AreEqual(5, doc.PageCount);
             }
+
+
         }
         #endregion
     }

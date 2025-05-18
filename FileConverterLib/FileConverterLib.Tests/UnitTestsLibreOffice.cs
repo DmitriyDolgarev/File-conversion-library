@@ -6,7 +6,7 @@ namespace FileConverterLib.Tests
     public class UnitTestsLibreOffice : AbstractUnitTests
     {
         [ClassInitialize]
-        public static void BeforeTests_MSOffice(TestContext context)
+        public static void BeforeTests_LibreOffice(TestContext context)
         {
             var filesToCopy = new string[] { "test_pdf_1.pdf", "test_word.docx", "test_powerpoint.pptx" };
 
